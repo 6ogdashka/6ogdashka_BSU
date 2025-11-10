@@ -21,7 +21,7 @@ void input_choice (std::vector<double>& vector, int32_t &size);
 void handle_input (std::vector<double>& vector, int32_t &size);
 void random_input ( std::vector<double>& vector, int32_t &size); 
 void solve ( std::vector<double>& vector, int32_t &size); 
-void solve_vector () {
+inline void solve_vector () {
     int32_t size{};
     std::vector<double> vector;
     try {
@@ -33,7 +33,7 @@ void solve_vector () {
     return;
 }
 
-double get_double_value() {
+inline double get_double_value() {
     double value {};
     if (!(std::cin >> value)) {
         throw std::invalid_argument ( " incorrect value " );
@@ -41,7 +41,7 @@ double get_double_value() {
     return value;
 }
 
-int search_index_of_min_element ( std::vector<double> vector, int32_t size ) {
+inline int search_index_of_min_element ( std::vector<double> vector, int32_t size ) {
     double min {std::numeric_limits<double>::max()};
     int index {};
     for ( int i{}; i < size; ++i) {
@@ -53,7 +53,7 @@ int search_index_of_min_element ( std::vector<double> vector, int32_t size ) {
     return index;
 }
 
-int search_index_of_max_element ( std::vector<double> vector, int32_t size) {
+inline int search_index_of_max_element ( std::vector<double> vector, int32_t size) {
     double max{std::numeric_limits<double>::min()};
     int index {};
     for ( int i{}; i < size; ++i) {
@@ -65,8 +65,7 @@ int search_index_of_max_element ( std::vector<double> vector, int32_t size) {
     return index;
 }
 
-double sum_between_index ( int32_t begin, int32_t end, std::vector<double> vector)
-{
+inline double sum_between_index ( int32_t begin, int32_t end, std::vector<double> vector) {
     double sum {};
     if ( begin > end)
     {
@@ -79,8 +78,7 @@ double sum_between_index ( int32_t begin, int32_t end, std::vector<double> vecto
     return sum;
 }
 
-bool is_vector_are_palindrom(int32_t begin, int32_t end, std::vector<double> vector)
-{
+inline bool is_vector_are_palindrom(int32_t begin, int32_t end, std::vector<double> vector) {
     for ( int32_t i {0}; i <= ((end-begin)/2); ++i)
     {
         if ( vector[begin + i] == vector[end - i])
@@ -95,8 +93,7 @@ bool is_vector_are_palindrom(int32_t begin, int32_t end, std::vector<double> vec
     return true;
 }
 
-void search_the_longer_palindrom( int32_t size, std::vector<double> vector, int32_t &begin_index, int32_t &end_index)
-{
+inline void search_the_longer_palindrom( int32_t size, std::vector<double> vector, int32_t &begin_index, int32_t &end_index) {
     for ( int32_t i {size-1}; i >= 2; --i)
     {
         for ( int32_t j {}; j < (size - i); ++j)
@@ -111,8 +108,7 @@ void search_the_longer_palindrom( int32_t size, std::vector<double> vector, int3
     }
 }
 
-void quick_vector_sort ( int32_t begin_index, int32_t end_index, std::vector<double> &vector)
-{
+inline void quick_vector_sort ( int32_t begin_index, int32_t end_index, std::vector<double> &vector) {
     int32_t currently_index = static_cast<int>((end_index-begin_index)/2) + begin_index;
     double currently_numb {vector[currently_index]};
     if ( end_index - begin_index < 1)
@@ -147,7 +143,7 @@ void quick_vector_sort ( int32_t begin_index, int32_t end_index, std::vector<dou
     }
 }
 
-void cin_vector( std::vector<double> &vector, int32_t &size) {
+inline void cin_vector( std::vector<double> &vector, int32_t &size) {
     double element;
     while ( (std::cin >> element)) {
         vector.push_back(element);
@@ -160,26 +156,26 @@ void cin_vector( std::vector<double> &vector, int32_t &size) {
     }
 }
 
-void handle_input (std::vector<double>& vector, int32_t &size) {
+inline void handle_input (std::vector<double>& vector, int32_t &size) {
     std::cout << " input your array: ";
     cin_vector(vector,size);
 }
 
-int get_vector_size (std::vector<double> vector) {
+inline int get_vector_size (std::vector<double> vector) {
     if ( vector.empty() ) {
         throw std::invalid_argument ( " your vector is empty " );
     }
     return vector.size();
 }
 
-void cout_vector (std::vector<double> vector,int32_t begin, int32_t end) {
+inline void cout_vector (std::vector<double> vector,int32_t begin, int32_t end) {
     for ( int i{begin}; i <= end; ++i) {
         std::cout << vector[i] << " ";
     }
     std::cout << std::endl;
 }
 
-int get_vector_size(int32_t &size) {
+inline int get_vector_size(int32_t &size) {
     std::cout << " enter array size: ";
     if (!(std::cin >> size)) {
         throw std::invalid_argument(" incorrect size ");
@@ -187,7 +183,7 @@ int get_vector_size(int32_t &size) {
     return size;
 }
 
-void random_generate_vector(std::vector<double>& vector, int32_t size, double left_range_of_elements, double right_range_of_element ) {
+inline void random_generate_vector(std::vector<double>& vector, int32_t size, double left_range_of_elements, double right_range_of_element ) {
     time_t random_seed {time(NULL)};
     srand(random_seed);
     if ( left_range_of_elements > right_range_of_element) {
@@ -202,7 +198,7 @@ void random_generate_vector(std::vector<double>& vector, int32_t size, double le
     }
 }
 
-void random_input ( std::vector<double>& vector, int32_t &size) {
+inline void random_input ( std::vector<double>& vector, int32_t &size) {
     size = get_vector_size(size);
     std::cout << "Введите два числа, которые будут диапазоном(M;N) велечин элементов массива" <<std::endl;
     double left_range_of_elements {get_double_value()};
@@ -212,7 +208,7 @@ void random_input ( std::vector<double>& vector, int32_t &size) {
     cout_vector(vector,0,size-1);
 }
 
-void input_choice (std::vector<double>& vector, int32_t &size) {
+inline void input_choice (std::vector<double>& vector, int32_t &size) {
     //size = get_vector_size(size);
     std::cout << "Выберите формат ввода:" << std::endl;
     std::cout << "Введите еденицу(1),если вы ходите ввести массив с клавиатуры" << std::endl;
@@ -234,7 +230,7 @@ void input_choice (std::vector<double>& vector, int32_t &size) {
         }
     }
 }
-void solve ( std::vector<double>& vector, int32_t &size) {
+inline void solve ( std::vector<double>& vector, int32_t &size) {
     int32_t index_for_min {search_index_of_min_element(vector,size)};
     int32_t index_for_max {search_index_of_max_element(vector,size)};
     int32_t begin_index{}; 

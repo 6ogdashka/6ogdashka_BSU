@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <array>
+#include "dinamic.array.h"
+
 
 const int MAX_SIZE = 1000;
 
@@ -12,8 +14,12 @@ void solve_std_array();
 void solve_static_array();
 void solve_dynamic_array();
 
-// Общие вспомогательные функции
-double get_double_value();
-int get_array_size(int &size);
-
+// Общие вспомогательные функци
+inline double get_double_value() {
+    double value{};
+    if (!(std::cin >> value)) {
+        throw std::invalid_argument(" incorrect value ");
+    }
+    return value;
+}
 #endif

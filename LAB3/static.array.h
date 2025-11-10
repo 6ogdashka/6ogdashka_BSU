@@ -3,27 +3,28 @@
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
-#include <array>
-#include "arrays.h"
-void cin_array(std::array<double,MAX_SIZE> &array, int32_t size);
-void cout_array(std::array<double,MAX_SIZE> array, int32_t begin, int32_t end);
-int get_array_size(int32_t &size);
-double get_double_value();
-void random_generate_array(std::array<double,MAX_SIZE> &array, int32_t SIZE, double left_range_of_elements, double right_range_of_element);
-double sum_between_index(int32_t begin, int32_t end, double array[]);
-int search_index_of_max_element(std::array<double,MAX_SIZE> array, int32_t size);
-int search_index_of_min_element(std::array<double,MAX_SIZE> array, int32_t size);
-bool is_array_are_palindrom(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array);
-void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE> array, int32_t &begin_index, int32_t &end_index);
-void quick_array_sort(int32_t begin_index, int32_t end_index, std::array<double,MAX_SIZE> &array);
-void input_choice(std::array<double,MAX_SIZE> &array, int32_t &size);
-void handle_input(std::array<double,MAX_SIZE> &array, int32_t size);
-void random_input(std::array<double,MAX_SIZE> &array, int32_t size);
-void solve(std::array<double,MAX_SIZE> &array, int32_t size);
 
-void solve_std_array () {
+const int32_t MAX_SIZE = 1000;
+
+void cin_array(double (&array)[MAX_SIZE], int32_t size);
+void cout_array(double array[], int32_t begin, int32_t end);
+int get_vector_size(int32_t &size);
+double get_double_value();
+void random_generate_array(double (&array)[MAX_SIZE], int32_t SIZE, double left_range_of_elements, double right_range_of_element);
+double sum_between_index(int32_t begin, int32_t end, double array[]);
+int search_index_of_max_element(double array[], int32_t size);
+int search_index_of_min_element(double array[], int32_t size);
+bool is_array_are_palindrom(int32_t begin, int32_t end, double array[]);
+void search_the_longer_palindrom(int32_t size, double array[], int32_t &begin_index, int32_t &end_index);
+void quick_array_sort(int32_t begin_index, int32_t end_index, double (&array)[MAX_SIZE]);
+void input_choice(double (&array)[MAX_SIZE], int32_t &size);
+void handle_input(double (&array)[MAX_SIZE], int32_t size);
+void random_input(double (&array)[MAX_SIZE], int32_t size);
+void solve(double (&array)[MAX_SIZE], int32_t size);
+
+inline void solve_static_array() {
     int32_t size{};
-    std::array<double,MAX_SIZE> array {}; 
+    double array[MAX_SIZE]; 
     try {
         input_choice(array, size);
         solve(array, size);
@@ -36,15 +37,7 @@ void solve_std_array () {
     return;
 }
 
-double get_double_value() {
-    double value{};
-    if (!(std::cin >> value)) {
-        throw std::invalid_argument(" incorrect value ");
-    }
-    return value;
-}
-
-int search_index_of_min_element(std::array<double,MAX_SIZE> array, int32_t size) {
+inline int search_index_of_min_element(double array[], int32_t size) {
     double min{std::numeric_limits<double>::max()};
     int index{};
     for (int i{}; i < size; ++i) {
@@ -56,7 +49,7 @@ int search_index_of_min_element(std::array<double,MAX_SIZE> array, int32_t size)
     return index;
 }
 
-int search_index_of_max_element(std::array<double,MAX_SIZE> array, int32_t size) {
+inline int search_index_of_max_element(double array[], int32_t size) {
     double max{std::numeric_limits<double>::min()};
     int index{};
     for (int i{}; i < size; ++i) {
@@ -68,7 +61,7 @@ int search_index_of_max_element(std::array<double,MAX_SIZE> array, int32_t size)
     return index;
 }
 
-double sum_between_index(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array) {
+inline double sum_between_index(int32_t begin, int32_t end, double array[]) {
     double sum{};
     if (begin > end) {
         std::swap(begin, end);
@@ -79,7 +72,7 @@ double sum_between_index(int32_t begin, int32_t end, std::array<double,MAX_SIZE>
     return sum;
 }
 
-bool is_array_are_palindrom(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array) {
+inline bool is_array_are_palindrom(int32_t begin, int32_t end, double array[]) {
     for (int32_t i{0}; i <= ((end - begin) / 2); ++i) {
         if (array[begin + i] == array[end - i]) {
             continue;
@@ -90,7 +83,7 @@ bool is_array_are_palindrom(int32_t begin, int32_t end, std::array<double,MAX_SI
     return true;
 }
 
-void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE> array, int32_t &begin_index, int32_t &end_index) {
+inline void search_the_longer_palindrom(int32_t size, double array[], int32_t &begin_index, int32_t &end_index) {
     begin_index = 0;
     end_index = 0;
     
@@ -104,7 +97,8 @@ void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE> array
         }
     }
 }
-void quick_array_sort ( int32_t begin_index, int32_t end_index, std::array<double,MAX_SIZE> &array) {
+
+inline void quick_array_sort ( int32_t begin_index, int32_t end_index, double (&array)[MAX_SIZE] ) {
     int32_t currently_index = static_cast<int>((end_index-begin_index)/2) + begin_index;
     double currently_numb {array[currently_index]};
     if ( end_index - begin_index < 1) {
@@ -133,7 +127,7 @@ void quick_array_sort ( int32_t begin_index, int32_t end_index, std::array<doubl
     }
 }
 
-void cin_array(std::array<double,MAX_SIZE> &array, int32_t size){
+inline void cin_array(double (&array)[MAX_SIZE], int32_t size) {
     for (int i{}; i < size; ++i) {
         if (!(std::cin >> array[i])) {
             throw std::invalid_argument(" one of array element is incorrect ");
@@ -141,12 +135,12 @@ void cin_array(std::array<double,MAX_SIZE> &array, int32_t size){
     }
 }
 
-void handle_input(std::array<double,MAX_SIZE> &array, int32_t size) {
+inline void handle_input(double (&array)[MAX_SIZE], int32_t size) {
     std::cout << " input your array: ";
     cin_array(array, size);
 }
 
-int get_array_size(int32_t &size) {
+inline int get_vector_size(int32_t &size) {
     std::cout << " enter array size: ";
     if (!(std::cin >> size)) {
         throw std::invalid_argument(" incorrect size ");
@@ -157,14 +151,14 @@ int get_array_size(int32_t &size) {
     return size;
 }
 
-void cout_array(std::array<double,MAX_SIZE> array, int32_t begin, int32_t end) {
+inline void cout_array(double array[], int32_t begin, int32_t end) {
     for (int i{begin}; i <= end; ++i) {
         std::cout << array[i] << " ";
     }
     std::cout << std::endl;
 }
 
-void random_generate_array(std::array<double,MAX_SIZE> &array, int32_t SIZE, double left_range_of_elements, double right_range_of_element) {
+inline void random_generate_array(double (&array)[MAX_SIZE], int32_t SIZE, double left_range_of_elements, double right_range_of_element) {
     time_t random_seed{time(NULL)};
     srand(random_seed);
     if (left_range_of_elements > right_range_of_element) {
@@ -176,7 +170,7 @@ void random_generate_array(std::array<double,MAX_SIZE> &array, int32_t SIZE, dou
     }
 }
 
-void random_input(std::array<double,MAX_SIZE> &array, int32_t size) {
+inline void random_input(double (&array)[MAX_SIZE], int32_t size) {
     std::cout << "Введите два числа, которые будут диапазоном(M;N) величин элементов массива" << std::endl;
     double left_range_of_elements{get_double_value()};
     double right_range_of_elements{get_double_value()};
@@ -185,8 +179,8 @@ void random_input(std::array<double,MAX_SIZE> &array, int32_t size) {
     cout_array(array, 0, size - 1);
 }
 
-void input_choice(std::array<double,MAX_SIZE> &array, int32_t &size) {
-    size = get_array_size(size);
+inline void input_choice(double (&array)[MAX_SIZE], int32_t &size) {
+    size = get_vector_size(size);
     std::cout << "Выберите формат ввода:" << std::endl;
     std::cout << "Введите единицу(1), если вы хотите ввести массив с клавиатуры" << std::endl;
     std::cout << "Введите двойку(2), если хотите, чтобы массив был заполнен произвольными числами" << std::endl;
@@ -207,7 +201,7 @@ void input_choice(std::array<double,MAX_SIZE> &array, int32_t &size) {
     }
 }
 
-void solve(std::array<double,MAX_SIZE> &array, int32_t size) {
+inline void solve(double (&array)[MAX_SIZE], int32_t size) {
     int32_t index_for_min{search_index_of_min_element(array, size)};
     int32_t index_for_max{search_index_of_max_element(array, size)};
     int32_t begin_index{};
