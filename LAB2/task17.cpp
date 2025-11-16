@@ -8,8 +8,7 @@ void task17() {
     std::cin >> max_denominator;
 
     if (max_denominator < 2) {
-        std::cout << "Знаменатель должен быть не меньше 2\n\n";
-        return;
+        throw "Знаменатель должен быть не меньше 2\n\n";
     }
     int a = 0, b = 1;
     int c = 1, d = max_denominator;
@@ -33,7 +32,9 @@ void task17() {
 }
 
 int main() {
+    try {
     std::cout << "Задача 17: Простые несократимые дроби\n\n";
     task17();
+    } catch ( const char* msg) { std::cout << msg; }
     return 0;
 }
