@@ -5,14 +5,14 @@ void task17();
 
 int main() {
     try {
-    std::cout << "Задача 17: Простые несократимые дроби\n\n";
-    task17();
+        setRussianLocale();
+        std::cout << "Задача 17: Простые несократимые дроби\n\n";
+        task17();
     } catch ( const char* msg) { std::cout << msg; }
     return 0;
 }
 
 void task17() {
-    setRussianLocale();
     std::cout << "=== Задача 17: Простые несократимые дроби между 0 и 1 ===\n";  
     int max_denominator;
     std::cout << "Введите максимальный знаменатель: ";

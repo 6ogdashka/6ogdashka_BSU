@@ -4,11 +4,12 @@
 
 void task10();
 int countDigits(int number);
-int sunOfPoweredDigits(int number, int power);
+int sumOfPoweredDigits(int number, int power);
 bool isArmstrongNumber( int number);
 
 int main() {
     try {
+        setRussianLocale();
         std::cout << "Задача 10: Числа Армстронга\n\n";
         task10();
     } catch (const char* msg) { 
@@ -43,7 +44,6 @@ bool isArmstrongNumber(int number) {
 }
 
 void task10() {
-    setRussianLocale();
     std::cout << "=== Задача 10: Числа Армстронга ===\n";
     
     int N;

@@ -6,6 +6,7 @@ void task19();
 
 int main() {
     try {
+        setRussianLocale();
         std::cout << "Задача 19: Пифагоровы тройки\n\n";
         task19();
     } catch (const char* msg) { 
@@ -15,7 +16,6 @@ int main() {
 }
 
 void task19() {
-    setRussianLocale();
     std::cout << "=== Задача 19: Пифагоровы тройки чисел ===\n";
     
     int n;
