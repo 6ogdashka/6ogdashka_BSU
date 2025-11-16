@@ -9,8 +9,8 @@ int main() {
     std::cout << "Введите текущую дату (день месяц год): ";
     std::cin >> current_day >> current_month >> current_year;
 
-    int total_months_in_year = 12;
-    int total_days_in_month = 30;
+    const int total_months_in_year = 12;
+    const int total_days_in_month = 30;
 
     int birth_total_days = (birth_year * total_months_in_year + birth_month) * total_days_in_month + birth_day;
     int current_total_days = (current_year * total_months_in_year + current_month) * total_days_in_month + current_day;
