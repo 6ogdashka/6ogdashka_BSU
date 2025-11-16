@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <limits>
-#include <locale.h>
+#include "russian.h"
 #include <random>
 #include <stdexcept>
 
@@ -30,7 +30,7 @@ void solve(int32_t**& matrix, int32_t rows, int32_t columns);
 void delete_matrix(int**& matrix, int32_t rows, int32_t columns);
 
 int main() {
-    setlocale(LC_ALL, "Russian");
+    setRussianLocale();
     int32_t rows{};
     int32_t columns{};
     int** matrix{nullptr};
