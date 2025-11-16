@@ -1,9 +1,13 @@
-// вы отсортили после того как сделал, поэтому я делал 5 вариант а не 6.
-#include <iostream>
+// вы отсортили таблицу уже после того как сделал, поэтому я делал 5 вариант а не 6.
+// так же я попросил AI сделать оформление более красивым.
+
 #include <iomanip>
+#include <iostream>
 #include <limits>
+#include <locale.h>
 #include <random>
 #include <stdexcept>
+
 void input_size_of_matrix(int32_t& rows, int32_t& columns);
 void cin_matrix(int**& matrix, int32_t rows, int32_t columns);
 void random_generator_choise(int**& matrix, int32_t rows, int32_t columns);
@@ -26,6 +30,7 @@ void solve(int32_t**& matrix, int32_t rows, int32_t columns);
 void delete_matrix(int**& matrix, int32_t rows, int32_t columns);
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     int32_t rows{};
     int32_t columns{};
     int** matrix{nullptr};
@@ -48,10 +53,16 @@ inline int get_natural_value() {
 }
 
 void input_size_of_matrix(int32_t& rows, int32_t& columns) {
-    std::cout << " Input rows count: ";
+    std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║           ВВОД РАЗМЕРА МАТРИЦЫ              ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
+
+    std::cout << "➤ Введите количество строк: ";
     rows = get_natural_value();
-    std::cout << " Input columns count: ";
+    std::cout << "➤ Введите количество столбцов: ";
     columns = get_natural_value();
+
+    std::cout << "✓ Размер матрицы: " << rows << " × " << columns << std::endl;
 }
 
 void allocate_matrix(int**& matrix, int32_t rows, int32_t columns) {
@@ -63,47 +74,74 @@ void allocate_matrix(int**& matrix, int32_t rows, int32_t columns) {
 
 void cin_matrix(int**& matrix, int32_t rows, int32_t columns) {
     for (int i{}; i < rows; ++i) {
+        std::cout << "Строка " << i << ": ";
         for (int j{}; j < columns; ++j) {
             if (!(std::cin >> matrix[i][j])) {
-                throw std::invalid_argument("one elements of matrix entered incorrectly");
+                throw std::invalid_argument("Ошибка: элемент введен некорректно");
             }
         }
     }
+    std::cout << "✓ Матрица успешно введена" << std::endl;
 }
 
 void old_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns) {
+    std::cout << "\n─── Классический генератор ───" << std::endl;
     time_t random_seed{time(NULL)};
     srand(random_seed);
     int32_t left_range_of_elements{};
     int32_t right_range_of_element{};
-    std::cout << " Input range of value of element: ";
-    if (!((std::cin >> left_range_of_elements) && (std::cin >> right_range_of_element))) {
-        throw std::range_error("Incorrectly range");
+
+    std::cout << "➤ Введите диапазон значений элементов:" << std::endl;
+    std::cout << "  Минимальное значение: ";
+    if (!(std::cin >> left_range_of_elements)) {
+        throw std::range_error("Ошибка: некорректное минимальное значение");
     }
+    std::cout << "  Максимальное значение: ";
+    if (!(std::cin >> right_range_of_element)) {
+        throw std::range_error("Ошибка: некорректное максимальное значение");
+    }
+
     if (left_range_of_elements > right_range_of_element) {
+        std::cout << "⚠  Диапазон автоматически исправлен" << std::endl;
         std::swap(left_range_of_elements, right_range_of_element);
     }
+
+    std::cout << "✓ Диапазон: [" << left_range_of_elements << ", " << right_range_of_element << "]"
+              << std::endl;
+
     for (int i{}; i < rows; ++i) {
         for (int32_t j{}; j < columns; ++j) {
             matrix[i][j] = rand() % (right_range_of_element - left_range_of_elements + 1) +
                            left_range_of_elements;
-            ;
         }
     }
 }
 
 void new_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns) {
+    std::cout << "\n─── Современный генератор ───" << std::endl;
     std::random_device rd;
     std::mt19937 gen(rd());
     int32_t left_range_of_elements{};
     int32_t right_range_of_element{};
-    std::cout << " Input range of value of element: ";
-    if (!((std::cin >> left_range_of_elements) && (std::cin >> right_range_of_element))) {
-        throw std::range_error(" Incorrectly range");
+
+    std::cout << "➤ Введите диапазон значений элементов:" << std::endl;
+    std::cout << "  Минимальное значение: ";
+    if (!(std::cin >> left_range_of_elements)) {
+        throw std::range_error("Ошибка: некорректное минимальное значение");
     }
+    std::cout << "  Максимальное значение: ";
+    if (!(std::cin >> right_range_of_element)) {
+        throw std::range_error("Ошибка: некорректное максимальное значение");
+    }
+
     if (left_range_of_elements > right_range_of_element) {
+        std::cout << "⚠  Диапазон автоматически исправлен" << std::endl;
         std::swap(left_range_of_elements, right_range_of_element);
     }
+
+    std::cout << "✓ Диапазон: [" << left_range_of_elements << ", " << right_range_of_element << "]"
+              << std::endl;
+
     std::uniform_int_distribution<int> distrib(left_range_of_elements, right_range_of_element);
     for (int i{}; i < rows; ++i) {
         for (int j{}; j < columns; ++j) {
@@ -113,9 +151,15 @@ void new_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns) {
 }
 
 void random_generator_choise(int**& matrix, int32_t rows, int32_t columns) {
+    std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║     ВЫБОР ГЕНЕРАТОРА СЛУЧАЙНЫХ ЧИСЕЛ       ║" << std::endl;
+    std::cout << "╠══════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║ • 'old' - классический генератор (rand())   ║" << std::endl;
+    std::cout << "║ • 'new' - современный генератор (mt19937)   ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
+    std::cout << "➤ Ваш выбор: ";
+
     std::string type{};
-    std::cout << " Choose random generator: write 'old' if you want old generator"
-              << " or write 'new' if you want new generator: ";
     std::cin >> type;
     if (type == "old") {
         allocate_matrix(matrix, rows, columns);
@@ -126,7 +170,7 @@ void random_generator_choise(int**& matrix, int32_t rows, int32_t columns) {
         new_random_generate_matrix(matrix, rows, columns);
         return;
     } else {
-        throw std::invalid_argument("you chosed incorrect generator");
+        throw std::invalid_argument("Ошибка: выбран неверный генератор");
     }
 }
 
@@ -148,16 +192,18 @@ int product_of_element_in_row(int*& row, int32_t size) {
 }
 
 void product_of_element_in_positive_rows_in_matrix(int**& matrix, int32_t rows, int32_t columns) {
+    std::cout << "\n─── Произведения в строках без отрицательных элементов ───" << std::endl;
     int counter{};
     for (int i{}; i < rows; ++i) {
         if (search_negative_number_in_row(matrix[i], columns)) {
-            std::cout << "all elements in " << i << " row is positive, product of thit row is: "
-                      << product_of_element_in_row(matrix[i], columns) << std::endl;
+            std::cout << "✓ Строка " << i << ": все элементы положительные" << std::endl;
+            std::cout << "  Произведение: " << product_of_element_in_row(matrix[i], columns)
+                      << std::endl;
             ++counter;
         }
     }
     if (counter == 0) {
-        std::cout << " all rows have negative element" << std::endl;
+        std::cout << "✗ Все строки содержат отрицательные элементы" << std::endl;
     }
 }
 
@@ -212,35 +258,41 @@ int search_column_with_max_element(int**& matrix, int32_t rows, int32_t columns,
 }
 
 void special_matrix_sort(int** matrix, int32_t rows, int32_t columns) {
-    int32_t max{max_element_in_matrix(matrix, rows, columns)};
-    int row_index{};
-    row_index = search_rows_with_max_element(matrix, rows, columns, max);
-    // std::cout << row_index << '\n';
-    swap_rows(matrix, 0, row_index, columns);
-    if (matrix[0][0] == max_element_in_matrix(matrix, rows, columns)) {
-        return;
+    int32_t max = max_element_in_matrix(matrix, rows, columns);
+    int row_index = search_rows_with_max_element(matrix, rows, columns, max);
+    if (row_index != 0) {
+        swap_rows(matrix, 0, row_index, columns);
     }
-    int column_index{};
-    column_index = search_column_with_max_element(matrix, rows, columns, max);
-    // std::cout << column_index << '\n';
-    swap_columns(matrix, 0, column_index, rows);
+    int column_index = 0;
+    for (int j = 0; j < columns; ++j) {
+        if (matrix[0][j] == max) {
+            column_index = j;
+            break;
+        }
+    }
+    if (column_index != 0) {
+        swap_columns(matrix, 0, column_index, rows);
+    }
 }
 
 void cout_matrix(int**& matrix, int32_t rows, int32_t columns) {
     for (int i{}; i < rows; ++i) {
         for (int j{}; j < columns; ++j) {
-            std::cout << std::setw(columns) << matrix[i][j] << " ";
+            std::cout << std::setw(6) << matrix[i][j] << " ";
         }
         std::cout << std::endl;
     }
 }
 
 void input_choise(int**& matrix, int32_t& rows, int32_t& columns) {
-    std::cout << "Выберите формат ввода элементов матрицы:" << std::endl;
-    std::cout << "Введите еденицу(1),если вы ходите ввести матрицу с клавиатуры" << std::endl;
-    std::cout
-        << "Введите двойку(2), если хотите, чтобы матрица была заполнена произвольными числами"
-        << std::endl;
+    std::cout << "╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║        ВВОД ЭЛЕМЕНТОВ МАТРИЦЫ               ║" << std::endl;
+    std::cout << "╠══════════════════════════════════════════════╣" << std::endl;
+    std::cout << "║ 1 - Ввод матрицы с клавиатуры               ║" << std::endl;
+    std::cout << "║ 2 - Заполнение случайными числами           ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
+    std::cout << "➤ Выберите вариант: ";
+
     int numb{};
     std::cin >> numb;
     switch (numb) {
@@ -252,26 +304,38 @@ void input_choise(int**& matrix, int32_t& rows, int32_t& columns) {
         case 2: {
             input_size_of_matrix(rows, columns);
             random_generator_choise(matrix, rows, columns);
-            std::cout << "Generated matrix is: " << std::endl;
+            std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+            std::cout << "║        СГЕНЕРИРОВАННАЯ МАТРИЦА               ║" << std::endl;
+            std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
             cout_matrix(matrix, rows, columns);
             break;
         }
         default: {
-            throw std::invalid_argument ("You choose incorrert variant, try again");
+            throw std::invalid_argument("Ошибка: выбран неверный вариант!");
         }
     }
 }
 
 void handle_input(int**& matrix, int32_t rows, int32_t columns) {
     allocate_matrix(matrix, rows, columns);
-    std::cout << " input matrix" << std::endl;
+    std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║           РУЧНОЙ ВВОД МАТРИЦЫ               ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
+    std::cout << "Введите элементы матрицы " << rows << " × " << columns << ":" << std::endl;
     cin_matrix(matrix, rows, columns);
 }
 
 void solve(int32_t**& matrix, int32_t rows, int32_t columns) {
+    std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║           РЕЗУЛЬТАТЫ ОБРАБОТКИ              ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
+
     product_of_element_in_positive_rows_in_matrix(matrix, rows, columns);
     special_matrix_sort(matrix, rows, columns);
-    std::cout << "Sorted matrix is: " << std::endl;
+
+    std::cout << "\n╔══════════════════════════════════════════════╗" << std::endl;
+    std::cout << "║         ОТСОРТИРОВАННАЯ МАТРИЦА             ║" << std::endl;
+    std::cout << "╚══════════════════════════════════════════════╝" << std::endl;
     cout_matrix(matrix, rows, columns);
 }
 
