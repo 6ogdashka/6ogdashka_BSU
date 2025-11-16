@@ -3,47 +3,68 @@
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
-void allocate_array(double* &array, int32_t size);
-void cin_array( double* &array, int32_t size);
-void cout_array (double* array, int32_t begin, int32_t end);
-int get_vector_size ( int32_t &size);
-double get_double_value();
-void random_generate_array ( double* array, int32_t SIZE, double left_range_of_elements, double right_range_of_element);
-double sum_between_index ( int32_t begin, int32_t end, double* array);
-int search_index_of_max_element ( double*& array, int32_t size);
-int search_index_of_min_element ( double*& array, int32_t size);
-bool is_array_are_palindrom ( int32_t begin, int32_t end, double* array);
-void search_the_longer_palindrom( int32_t size, double* array, int32_t &begin_index, int32_t &end_index);
-void my_right_swap ( int32_t i, double* &array,int32_t &currently_index,int32_t currently_numb);
-void my_left_swap ( int32_t i, double* &array, int32_t &currently_index,int32_t currently_numb);
-void quick_array_sort ( int32_t begin_index, int32_t end_index, double* array);
-void input_choice (double* &array, int32_t &size);
-void handle_input (double* &array, int32_t size);
-void random_input ( double* &array, int32_t size); 
-void solve ( double* &array, int32_t size); 
+
+void allocate_dynamic_array(double* &array, int32_t size);
+void input_dynamic_array(double* &array, int32_t size);
+void output_dynamic_array(double* array, int32_t begin, int32_t end);
+int get_dynamic_array_size(int32_t &size);
+double get_double_value_dynamic();
+void generate_random_dynamic_array(double* array, int32_t SIZE, double left_range, double right_range);
+double sum_between_indices_dynamic(int32_t begin, int32_t end, double* array);
+int find_max_index_dynamic(double* array, int32_t size);
+int find_min_index_dynamic(double* array, int32_t size);
+bool is_dynamic_array_palindrome(int32_t begin, int32_t end, double* array);
+void find_longest_palindrome_dynamic(int32_t size, double* array, int32_t &begin_index, int32_t &end_index);
+void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double* array);
+void choose_input_method_dynamic(double* &array, int32_t &size);
+void handle_manual_input_dynamic(double* &array, int32_t size);
+void handle_random_input_dynamic(double* &array, int32_t size);
+void process_dynamic_array(double* &array, int32_t size);
+
 
 inline void solve_dynamic_array() {
+    setRussianLocale();
+    
+    std::cout << "==============================================================\n";
+    std::cout << "|           ПРОГРАММА ДЛЯ РАБОТЫ С МАССИВАМИ               |\n";
+    std::cout << "==============================================================\n\n";
+    
     int32_t size{};
     double* array {nullptr};
     try {
-        input_choice(array,size);
-        solve (array,size);
-    } catch ( const char* msg) {
-        std::cout << msg;
+        choose_input_method_dynamic(array, size);
+        process_dynamic_array(array, size);
+    } catch (const char* msg) {
+        std::cout << "ОШИБКА: " << msg << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "ОШИБКА: " << e.what() << std::endl;
     }
+    
     delete[] array;
+    
+    std::cout << "\n==============================================================\n";
+    std::cout << "|           ПРОГРАММА ЗАВЕРШИЛА РАБОТУ                    |\n";
+    std::cout << "==============================================================\n";
     return;
 }
 
-inline void allocate_array(double* &array, int32_t size) {
+inline void allocate_dynamic_array(double* &array, int32_t size) {
     array = new double[size];
 }
 
-inline int search_index_of_min_element ( double*& array, int32_t size ) {
+inline double get_double_value_dynamic() {
+    double value {};
+    if (!(std::cin >> value)) {
+        throw std::invalid_argument("некорректное значение");
+    }
+    return value;
+}
+
+inline int find_min_index_dynamic(double* array, int32_t size) {
     double min {std::numeric_limits<double>::max()};
     int index {};
-    for ( int i{}; i < size; ++i) {
-        if ( array[i] < min) {
+    for (int i{}; i < size; ++i) {
+        if (array[i] < min) {
             index = i;
             min = array[i];
         }
@@ -51,11 +72,11 @@ inline int search_index_of_min_element ( double*& array, int32_t size ) {
     return index;
 }
 
-inline int search_index_of_max_element ( double*& array, int32_t size) {
+inline int find_max_index_dynamic(double* array, int32_t size) {
     double max{std::numeric_limits<double>::min()};
     int index {};
-    for ( int i{}; i < size; ++i) {
-        if ( array[i] > max ) {
+    for (int i{}; i < size; ++i) {
+        if (array[i] > max) {
             index = i;
             max = array[i];
         }
@@ -63,41 +84,32 @@ inline int search_index_of_max_element ( double*& array, int32_t size) {
     return index;
 }
 
-inline double sum_between_index ( int32_t begin, int32_t end, double* array) {
+inline double sum_between_indices_dynamic(int32_t begin, int32_t end, double* array) {
     double sum {};
-    if ( begin > end)
-    {
-    std::swap(begin,end);
+    if (begin > end) {
+        std::swap(begin,end);
     }
-    for ( int32_t i {begin}; i <= end; ++i)
-    {
+    for (int32_t i {begin}; i <= end; ++i) {
         sum += array[i];
     }
     return sum;
 }
 
-inline bool is_array_are_palindrom(int32_t begin, int32_t end, double* array) {
-    for ( int32_t i {0}; i <= ((end-begin)/2); ++i)
-    {
-        if ( array[begin + i] == array[end - i])
-        {
+inline bool is_dynamic_array_palindrome(int32_t begin, int32_t end, double* array) {
+    for (int32_t i {0}; i <= ((end-begin)/2); ++i) {
+        if (array[begin + i] == array[end - i]) {
             continue;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
     return true;
 }
 
-inline void search_the_longer_palindrom( int32_t size, double* array, int32_t &begin_index, int32_t &end_index) {
-    for ( int32_t i {size-1}; i >= 2; --i)
-    {
-        for ( int32_t j {}; j <= (size - i); ++j)
-        {
-            if ( is_array_are_palindrom(j,j+i,array))
-            {
+inline void find_longest_palindrome_dynamic(int32_t size, double* array, int32_t &begin_index, int32_t &end_index) {
+    for (int32_t i {size-1}; i >= 2; --i) {
+        for (int32_t j {}; j <= (size - i); ++j) {
+            if (is_dynamic_array_palindrome(j,j+i,array)) {
                 begin_index = j;
                 end_index = j + i;
                 break;
@@ -106,17 +118,14 @@ inline void search_the_longer_palindrom( int32_t size, double* array, int32_t &b
     }
 }
 
-inline void quick_array_sort ( int32_t begin_index, int32_t end_index, double* array) {
+inline void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double* array) {
     int32_t currently_index = static_cast<int>((end_index-begin_index)/2) + begin_index;
     double currently_numb {array[currently_index]};
-    if ( end_index - begin_index < 1)
-    {
+    if (end_index - begin_index < 1) {
         return;
     }
-    for ( int32_t i {begin_index}; i <=end_index; ++i )
-    {
-        if ( (array[i] <= currently_numb) && ( i > currently_index) )
-        {
+    for (int32_t i {begin_index}; i <=end_index; ++i) {
+        if ((array[i] <= currently_numb) && (i > currently_index)) {
             double temp {array[currently_index+1]};
             array[currently_index+1] = array[i];
             array[i] = temp;
@@ -124,117 +133,142 @@ inline void quick_array_sort ( int32_t begin_index, int32_t end_index, double* a
             array[currently_index+1]=currently_numb;
             ++currently_index; 
         }
-        if ( (array[i] > currently_numb) && ( i < currently_index))
-        {
+        if ((array[i] > currently_numb) && (i < currently_index)) {
             array[currently_index] = array[i];
             array[i] = currently_numb;
             currently_index = i;
         }
     }
-    if ( currently_index >= 1)
-    {
-        quick_array_sort(begin_index, currently_index-1, array);
+    if (currently_index >= 1) {
+        quick_sort_dynamic_array(begin_index, currently_index-1, array);
     }
-    if ( currently_index <= end_index-1)
-    {
-        quick_array_sort(currently_index+1,  end_index, array);
+    if (currently_index <= end_index-1) {
+        quick_sort_dynamic_array(currently_index+1, end_index, array);
     }
 }
 
-inline void cin_array( double* &array, int32_t size) {
-    for ( int i{}; i < size; ++i) {
+inline void input_dynamic_array(double* &array, int32_t size) {
+    std::cout << ">>> Введите элементы массива через пробел: ";
+    for (int i{}; i < size; ++i) {
         if (!(std::cin >> array[i])) {
-            throw std::invalid_argument ( " one of array element is incorrect " );
+            throw std::invalid_argument("некорректное значение элемента");
         }
     }
 }
 
-inline void handle_input (double* &array, int32_t size) {
-    allocate_array(array, size);
-    std::cout << " input your array: ";
-    cin_array(array,size);
+inline void handle_manual_input_dynamic(double* &array, int32_t size) {
+    std::cout << "==============================================================\n";
+    std::cout << "|                  РУЧНОЙ ВВОД МАССИВА                     |\n";
+    std::cout << "==============================================================\n";
+    allocate_dynamic_array(array, size);
+    input_dynamic_array(array, size);
+    std::cout << ">>> Массив успешно введен!\n";
 }
 
-inline int get_vector_size (int &size) {
-    std::cout << " enter array size: ";
+inline int get_dynamic_array_size(int32_t &size) {
+    std::cout << ">>> Введите размер массива: ";
     if (!(std::cin >> size)) {
-        throw std::invalid_argument ( " incorrect size " );
+        throw std::invalid_argument("некорректный размер");
+    }
+    if (size <= 0) {
+        throw std::invalid_argument("размер должен быть положительным числом");
     }
     return size;
 }
 
-inline void cout_array (double* array,int32_t begin, int32_t end) {
-    for ( int i{begin}; i < end; ++i) {
-        std::cout << array[i] << " ";
+inline void output_dynamic_array(double* array, int32_t begin, int32_t end) {
+    std::cout << "[ ";
+    for (int i{begin}; i <= end; ++i) {
+        std::cout << array[i];
+        if (i < end) std::cout << ", ";
     }
-    std::cout << std::endl;
+    std::cout << " ]" << std::endl;
 }
 
-inline void random_generate_array(double* array, int32_t SIZE, double left_range_of_elements, double right_range_of_element ) {
+inline void generate_random_dynamic_array(double* array, int32_t SIZE, double left_range_of_elements, double right_range_of_element) {
     time_t random_seed {time(NULL)};
     srand(random_seed);
-    if ( left_range_of_elements > right_range_of_element) {
+    if (left_range_of_elements > right_range_of_element) {
         std::swap(left_range_of_elements,right_range_of_element);
     }
-    for ( int i{}; i < SIZE; ++i) {
-        double range {};
-        double coefficent {};
-        range = right_range_of_element - left_range_of_elements;
-        coefficent = range / static_cast<int>(range);
-        array[i] = ((rand() % static_cast<int>(range*range+1))* 1.0 * coefficent) / ((rand() % static_cast<int>(range))+range) + left_range_of_elements;
+    for (int i{}; i < SIZE; ++i) {
+        double range = right_range_of_element - left_range_of_elements;
+        array[i] = left_range_of_elements + (static_cast<double>(rand()) / RAND_MAX) * range;
     }
 }
 
-inline void random_input ( double* &array, int32_t size) {
-    allocate_array (array, size);
-    std::cout << "Введите два числа, которые будут диапазоном(M;N) велечин элементов массива" <<std::endl;
-    double left_range_of_elements {get_double_value()};
-    double right_range_of_elements {get_double_value()};
-    random_generate_array(array, size,left_range_of_elements, right_range_of_elements);
-    std::cout << " generated array is: ";
-    cout_array(array,0,size-1);
+inline void handle_random_input_dynamic(double* &array, int32_t size) {
+    std::cout << "==============================================================\n";
+    std::cout << "|               ГЕНЕРАЦИЯ СЛУЧАЙНОГО МАССИВА               |\n";
+    std::cout << "==============================================================\n";
+    
+    size = get_dynamic_array_size(size);
+    
+    std::cout << "\n==============================================================\n";
+    std::cout << "|           ВВЕДИТЕ ДИАПАЗОН ЗНАЧЕНИЙ ЭЛЕМЕНТОВ           |\n";
+    std::cout << "==============================================================\n";
+    std::cout << ">>> Введите левую границу диапазона: ";
+    double left_range_of_elements {get_double_value_dynamic()};
+    std::cout << ">>> Введите правую границу диапазона: ";
+    double right_range_of_elements {get_double_value_dynamic()};
+    
+    allocate_dynamic_array(array, size);
+    generate_random_dynamic_array(array, size, left_range_of_elements, right_range_of_elements);
+    
+    std::cout << "\n>>> Сгенерированный массив: ";
+    output_dynamic_array(array, 0, size-1);
 }
 
-inline void input_choice (double* &array, int32_t &size) {
-    size = get_vector_size(size);
-    std::cout << "Выберите формат ввода:" << std::endl;
-    std::cout << "Введите еденицу(1),если вы ходите ввести массив с клавиатуры" << std::endl;
-    std::cout << "Введите двойку(2), если хотите, чтобы массив был заполнен произвольными числами" << std::endl;
+inline void choose_input_method_dynamic(double* &array, int32_t &size) {
+    std::cout << "==============================================================\n";
+    std::cout << "|                   ВЫБЕРИТЕ ФОРМАТ ВВОДА                  |\n";
+    std::cout << "==============================================================\n";
+    std::cout << "  1 - Ввод массива с клавиатуры\n";
+    std::cout << "  2 - Заполнение массива случайными числами\n";
+    std::cout << "==============================================================\n";
+    std::cout << ">>> Ваш выбор: ";
+    
     int32_t numb {};
     std::cin >> numb;
     switch (numb) {
         case 1: {
-            handle_input(array, size);
+            handle_manual_input_dynamic(array, size);
             break;
         }
         case 2: {
-            random_input(array,size);   
+            handle_random_input_dynamic(array, size);   
             break;
         }
         default: {
-            throw "Вы выбрали неверный формат ввода, выберите его ещё раз более коректно"; 
+            throw "неверный формат ввода. Пожалуйста, выберите 1 или 2"; 
         }
     }
 }
 
-inline void solve ( double* &array, int32_t size) {
-    int32_t index_for_min {search_index_of_min_element(array,size)};
-    int32_t index_for_max {search_index_of_max_element(array,size)};
+inline void process_dynamic_array(double* &array, int32_t size) {
+    std::cout << "\n==============================================================\n";
+    std::cout << "|                    РЕЗУЛЬТАТЫ ОБРАБОТКИ                  |\n";
+    std::cout << "==============================================================\n";
+    
+    int32_t index_for_min {find_min_index_dynamic(array, size)};
+    int32_t index_for_max {find_max_index_dynamic(array, size)};
     int32_t begin_index{}; 
     int32_t end_index {};
-    std::cout << " Sum between the first max element of array and the last minimal element of array is: " 
-              << sum_between_index(index_for_min,index_for_max,array) << std::endl;
-    search_the_longer_palindrom(size, array, begin_index, end_index);
-    if ( begin_index == 0 && end_index == 0) { 
-        std::cout << " In array there'nt palindrom" << std::endl;
+    
+    std::cout << ">>> Сумма элементов между минимальным и максимальным элементами: " 
+              << sum_between_indices_dynamic(index_for_min, index_for_max, array) << std::endl;
+    
+    find_longest_palindrome_dynamic(size, array, begin_index, end_index);
+    if (begin_index == 0 && end_index == 0) { 
+        std::cout << ">>> В массиве нет палиндромов" << std::endl;
+    } else {
+        std::cout << ">>> Найденный максимальный палиндром: ";
+        output_dynamic_array(array, begin_index, end_index);
     }
-    else {
-        std::cout << " the max palindrom is: ";
-        cout_array(array, begin_index,end_index);
-    }
+    
     begin_index = 0;
     end_index = size - 1;
-    quick_array_sort (begin_index,end_index,array);
-    std::cout << " you sorted array is: ";
-    cout_array(array, begin_index, end_index);
+    quick_sort_dynamic_array(begin_index, end_index, array);
+    std::cout << ">>> Отсортированный массив: ";
+    output_dynamic_array(array, begin_index, end_index);
 }

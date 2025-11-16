@@ -1,5 +1,10 @@
 #include <iostream>
-#include "arrays.h"
+#include "russian.h"
+#include "CONST.h"
+#include "vector.h"
+#include "std::array.h"
+#include "static.array.h"
+#include "dinamic.array.h"
 int main() {
     std::cout << "=== Программа работы с массивами ===\n";
     std::cout << "Выберите тип массива:\n";

@@ -4,63 +4,72 @@
 #include <ctime>
 #include <stdexcept>
 #include <array>
-#include "arrays.h"
-void cin_array(std::array<double,MAX_SIZE> &array, int32_t size);
-void cout_array(std::array<double,MAX_SIZE> array, int32_t begin, int32_t end);
-int get_array_size(int32_t &size);
-double get_double_value();
-void random_generate_array(std::array<double,MAX_SIZE> &array, int32_t SIZE, double left_range_of_elements, double right_range_of_element);
-double sum_between_index(int32_t begin, int32_t end, double array[]);
-int search_index_of_max_element(std::array<double,MAX_SIZE> array, int32_t size);
-int search_index_of_min_element(std::array<double,MAX_SIZE> array, int32_t size);
-bool is_array_are_palindrom(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array);
-void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE> array, int32_t &begin_index, int32_t &end_index);
-void quick_array_sort(int32_t begin_index, int32_t end_index, std::array<double,MAX_SIZE> &array);
-void input_choice(std::array<double,MAX_SIZE> &array, int32_t &size);
-void handle_input(std::array<double,MAX_SIZE> &array, int32_t size);
-void random_input(std::array<double,MAX_SIZE> &array, int32_t size);
-void solve(std::array<double,MAX_SIZE> &array, int32_t size);
 
-inline void solve_std_array () {
+void input_std_array(std::array<double, MAX_SIZE> &array, int32_t size);
+void output_std_array(std::array<double, MAX_SIZE> array, int32_t begin, int32_t end);
+int get_std_array_size(int32_t &size);
+double get_double_value_std();
+void generate_random_std_array(std::array<double, MAX_SIZE> &array, int32_t SIZE, double left_range, double right_range);
+double sum_between_indices_std(int32_t begin, int32_t end, std::array<double, MAX_SIZE> array);
+int find_max_index_std(std::array<double, MAX_SIZE> array, int32_t size);
+int find_min_index_std(std::array<double, MAX_SIZE> array, int32_t size);
+bool is_std_array_palindrome(int32_t begin, int32_t end, std::array<double, MAX_SIZE> array);
+void find_longest_palindrome_std(int32_t size, std::array<double, MAX_SIZE> array, int32_t &begin_index, int32_t &end_index);
+void quick_sort_std_array(int32_t begin_index, int32_t end_index, std::array<double, MAX_SIZE> &array);
+void choose_input_method_std(std::array<double, MAX_SIZE> &array, int32_t &size);
+void handle_manual_input_std(std::array<double, MAX_SIZE> &array, int32_t size);
+void handle_random_input_std(std::array<double, MAX_SIZE> &array, int32_t size);
+void process_std_array(std::array<double, MAX_SIZE> &array, int32_t size);
+
+inline void solve_std_array() {
+    setRussianLocale();
+    
+    std::cout << "==============================================================\n";
+    std::cout << "|           РАБОТА С МАССИВОМ STD::ARRAY                    |\n";
+    std::cout << "==============================================================\n\n";
+    
     int32_t size{};
-    std::array<double,MAX_SIZE> array {}; 
+    std::array<double, MAX_SIZE> array{}; 
     try {
-        input_choice(array, size);
-        solve(array, size);
+        choose_input_method_std(array, size);
+        process_std_array(array, size);
     } catch (const char* msg) {
-        std::cout << msg;
+        std::cout << "ОШИБКА: " << msg << std::endl;
     } catch (const std::exception& e) {
-        std::cout << e.what();
+        std::cout << "ОШИБКА: " << e.what() << std::endl;
     }
     
+    std::cout << "\n==============================================================\n";
+    std::cout << "|           ОБРАБОТКА МАССИВА ЗАВЕРШЕНА                   |\n";
+    std::cout << "==============================================================\n";
     return;
 }
 
-inline int search_index_of_min_element(std::array<double,MAX_SIZE> array, int32_t size) {
-    double min{std::numeric_limits<double>::max()};
+inline int find_min_index_std(std::array<double, MAX_SIZE> array, int32_t size) {
+    double min_value{std::numeric_limits<double>::max()};
     int index{};
     for (int i{}; i < size; ++i) {
-        if (array[i] < min) {
+        if (array[i] < min_value) {
             index = i;
-            min = array[i];
+            min_value = array[i];
         }
     }
     return index;
 }
 
-inline int search_index_of_max_element(std::array<double,MAX_SIZE> array, int32_t size) {
-    double max{std::numeric_limits<double>::min()};
+inline int find_max_index_std(std::array<double, MAX_SIZE> array, int32_t size) {
+    double max_value{std::numeric_limits<double>::min()};
     int index{};
     for (int i{}; i < size; ++i) {
-        if (array[i] > max) {
+        if (array[i] > max_value) {
             index = i;
-            max = array[i];
+            max_value = array[i];
         }
     }
     return index;
 }
 
-inline double sum_between_index(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array) {
+inline double sum_between_indices_std(int32_t begin, int32_t end, std::array<double, MAX_SIZE> array) {
     double sum{};
     if (begin > end) {
         std::swap(begin, end);
@@ -71,24 +80,22 @@ inline double sum_between_index(int32_t begin, int32_t end, std::array<double,MA
     return sum;
 }
 
-inline bool is_array_are_palindrom(int32_t begin, int32_t end, std::array<double,MAX_SIZE> array) {
+inline bool is_std_array_palindrome(int32_t begin, int32_t end, std::array<double, MAX_SIZE> array) {
     for (int32_t i{0}; i <= ((end - begin) / 2); ++i) {
-        if (array[begin + i] == array[end - i]) {
-            continue;
-        } else {
+        if (array[begin + i] != array[end - i]) {
             return false;
         }
     }
     return true;
 }
 
-inline void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE> array, int32_t &begin_index, int32_t &end_index) {
+inline void find_longest_palindrome_std(int32_t size, std::array<double, MAX_SIZE> array, int32_t &begin_index, int32_t &end_index) {
     begin_index = 0;
     end_index = 0;
     
     for (int32_t i{size - 1}; i >= 1; --i) {
         for (int32_t j{}; j <= (size - i); ++j) {
-            if (is_array_are_palindrom(j, j + i, array)) {
+            if (is_std_array_palindrome(j, j + i, array)) {
                 begin_index = j;
                 end_index = j + i;
                 return;
@@ -96,129 +103,161 @@ inline void search_the_longer_palindrom(int32_t size, std::array<double,MAX_SIZE
         }
     }
 }
-inline void quick_array_sort ( int32_t begin_index, int32_t end_index, std::array<double,MAX_SIZE> &array) {
-    int32_t currently_index = static_cast<int>((end_index-begin_index)/2) + begin_index;
-    double currently_numb {array[currently_index]};
-    if ( end_index - begin_index < 1) {
+
+inline void quick_sort_std_array(int32_t begin_index, int32_t end_index, std::array<double, MAX_SIZE> &array) {
+    int32_t current_index = static_cast<int>((end_index - begin_index) / 2) + begin_index;
+    double current_value{array[current_index]};
+    if (end_index - begin_index < 1) {
         return;
     }
-    for ( int32_t i {begin_index}; i <=end_index; ++i ) {
-        if ( (array[i] <= currently_numb) && ( i > currently_index) ) {
-            double temp {array[currently_index+1]};
-            array[currently_index+1] = array[i];
+    for (int32_t i{begin_index}; i <= end_index; ++i) {
+        if ((array[i] <= current_value) && (i > current_index)) {
+            double temp{array[current_index + 1]};
+            array[current_index + 1] = array[i];
             array[i] = temp;
-            array[currently_index]= array[currently_index+1];
-            array[currently_index+1]=currently_numb;
-            ++currently_index; 
+            array[current_index] = array[current_index + 1];
+            array[current_index + 1] = current_value;
+            ++current_index; 
         }
-        if ( (array[i] > currently_numb) && ( i < currently_index)) {
-            array[currently_index] = array[i];
-            array[i] = currently_numb;
-            currently_index = i;
+        if ((array[i] > current_value) && (i < current_index)) {
+            array[current_index] = array[i];
+            array[i] = current_value;
+            current_index = i;
         }
     }
-    if ( currently_index >= 1) {
-        quick_array_sort(begin_index, currently_index-1, array);
+    if (current_index >= 1) {
+        quick_sort_std_array(begin_index, current_index - 1, array);
     }
-    if ( currently_index <= end_index-1) {
-        quick_array_sort(currently_index+1,  end_index, array);
+    if (current_index <= end_index - 1) {
+        quick_sort_std_array(current_index + 1, end_index, array);
     }
 }
 
-inline void cin_array(std::array<double,MAX_SIZE> &array, int32_t size){
+inline void input_std_array(std::array<double, MAX_SIZE> &array, int32_t size) {
+    std::cout << ">>> Введите " << size << " элементов массива:" << std::endl;
     for (int i{}; i < size; ++i) {
+        std::cout << "Элемент [" << i << "]: ";
         if (!(std::cin >> array[i])) {
-            throw std::invalid_argument(" one of array element is incorrect ");
+            throw std::invalid_argument("некорректное значение элемента");
         }
     }
 }
 
-inline void handle_input(std::array<double,MAX_SIZE> &array, int32_t size) {
-    std::cout << " input your array: ";
-    cin_array(array, size);
+inline void handle_manual_input_std(std::array<double, MAX_SIZE> &array, int32_t size) {
+    std::cout << "==============================================================\n";
+    std::cout << "|                  РУЧНОЙ ВВОД МАССИВА                     |\n";
+    std::cout << "==============================================================\n";
+    input_std_array(array, size);
+    std::cout << ">>> Массив успешно введен!\n";
 }
 
-inline int get_array_size(int32_t &size) {
-    std::cout << " enter array size: ";
+inline int get_std_array_size(int32_t &size) {
+    std::cout << ">>> Введите размер массива (максимум " << MAX_SIZE << "): ";
     if (!(std::cin >> size)) {
-        throw std::invalid_argument(" incorrect size ");
+        throw std::invalid_argument("некорректный размер");
     }
     if (size <= 0 || size > MAX_SIZE) {
-        throw " size must be between 1 and " + std::to_string(MAX_SIZE);
+        throw std::invalid_argument("размер должен быть от 1 до " + std::to_string(MAX_SIZE));
     }
     return size;
 }
 
-inline void cout_array(std::array<double,MAX_SIZE> array, int32_t begin, int32_t end) {
+inline void output_std_array(std::array<double, MAX_SIZE> array, int32_t begin, int32_t end) {
+    std::cout << "[ ";
     for (int i{begin}; i <= end; ++i) {
-        std::cout << array[i] << " ";
+        std::cout << array[i];
+        if (i < end) std::cout << ", ";
     }
-    std::cout << std::endl;
+    std::cout << " ]" << std::endl;
 }
 
-inline void random_generate_array(std::array<double,MAX_SIZE> &array, int32_t SIZE, double left_range_of_elements, double right_range_of_element) {
+inline double get_double_value_std() {
+    double value{};
+    if (!(std::cin >> value)) {
+        throw std::invalid_argument("некорректное числовое значение");
+    }
+    return value;
+}
+
+inline void generate_random_std_array(std::array<double, MAX_SIZE> &array, int32_t SIZE, double left_range, double right_range) {
     time_t random_seed{time(NULL)};
     srand(random_seed);
-    if (left_range_of_elements > right_range_of_element) {
-        std::swap(left_range_of_elements, right_range_of_element);
+    if (left_range > right_range) {
+        std::swap(left_range, right_range);
     }
     for (int i{}; i < SIZE; ++i) {
-        double range = right_range_of_element - left_range_of_elements;
-        array[i] = left_range_of_elements + (static_cast<double>(rand()) / RAND_MAX) * range;
+        double range = right_range - left_range;
+        array[i] = left_range + (static_cast<double>(rand()) / RAND_MAX) * range;
     }
 }
 
-inline void random_input(std::array<double,MAX_SIZE> &array, int32_t size) {
-    std::cout << "Введите два числа, которые будут диапазоном(M;N) величин элементов массива" << std::endl;
-    double left_range_of_elements{get_double_value()};
-    double right_range_of_elements{get_double_value()};
-    random_generate_array(array, size, left_range_of_elements, right_range_of_elements);
-    std::cout << " generated array is: ";
-    cout_array(array, 0, size - 1);
+inline void handle_random_input_std(std::array<double, MAX_SIZE> &array, int32_t size) {
+    std::cout << "==============================================================\n";
+    std::cout << "|               ГЕНЕРАЦИЯ СЛУЧАЙНОГО МАССИВА               |\n";
+    std::cout << "==============================================================\n";
+    
+    std::cout << ">>> Введите левую границу диапазона: ";
+    double left_range{get_double_value_std()};
+    std::cout << ">>> Введите правую границу диапазона: ";
+    double right_range{get_double_value_std()};
+    
+    generate_random_std_array(array, size, left_range, right_range);
+    std::cout << ">>> Сгенерированный массив: ";
+    output_std_array(array, 0, size - 1);
 }
 
-inline void input_choice(std::array<double,MAX_SIZE> &array, int32_t &size) {
-    size = get_array_size(size);
-    std::cout << "Выберите формат ввода:" << std::endl;
-    std::cout << "Введите единицу(1), если вы хотите ввести массив с клавиатуры" << std::endl;
-    std::cout << "Введите двойку(2), если хотите, чтобы массив был заполнен произвольными числами" << std::endl;
-    int32_t numb{};
-    std::cin >> numb;
-    switch (numb) {
+inline void choose_input_method_std(std::array<double, MAX_SIZE> &array, int32_t &size) {
+    size = get_std_array_size(size);
+    
+    std::cout << "==============================================================\n";
+    std::cout << "|                   ВЫБЕРИТЕ ФОРМАТ ВВОДА                  |\n";
+    std::cout << "==============================================================\n";
+    std::cout << "  1 - Ввод массива с клавиатуры\n";
+    std::cout << "  2 - Заполнение массива случайными числами\n";
+    std::cout << "==============================================================\n";
+    std::cout << ">>> Ваш выбор: ";
+    
+    int32_t choice{};
+    std::cin >> choice;
+    switch (choice) {
         case 1: {
-            handle_input(array, size);
+            handle_manual_input_std(array, size);
             break;
         }
         case 2: {
-            random_input(array, size);
+            handle_random_input_std(array, size);
             break;
         }
         default: {
-            throw "Вы выбрали неверный формат ввода, выберите его ещё раз более корректно";
+            throw "неверный формат ввода. Пожалуйста, выберите 1 или 2";
         }
     }
 }
 
-inline void solve(std::array<double,MAX_SIZE> &array, int32_t size) {
-    int32_t index_for_min{search_index_of_min_element(array, size)};
-    int32_t index_for_max{search_index_of_max_element(array, size)};
+inline void process_std_array(std::array<double, MAX_SIZE> &array, int32_t size) {
+    std::cout << "\n==============================================================\n";
+    std::cout << "|                    РЕЗУЛЬТАТЫ ОБРАБОТКИ                  |\n";
+    std::cout << "==============================================================\n";
+    
+    int32_t min_index{find_min_index_std(array, size)};
+    int32_t max_index{find_max_index_std(array, size)};
     int32_t begin_index{};
     int32_t end_index{};
     
-    std::cout << " Sum between the first max element of array and the last minimal element of array is: "
-              << sum_between_index(index_for_min, index_for_max, array) << std::endl;
+    std::cout << ">>> Индекс минимального элемента: " << min_index << std::endl;
+    std::cout << ">>> Индекс максимального элемента: " << max_index << std::endl;
+    std::cout << ">>> Сумма элементов между минимальным и максимальным: " 
+              << sum_between_indices_std(min_index, max_index, array) << std::endl;
     
-    search_the_longer_palindrom(size, array, begin_index, end_index);
+    find_longest_palindrome_std(size, array, begin_index, end_index);
     if (begin_index == 0 && end_index == 0) {
-        std::cout << " In array there'nt palindrom" << std::endl;
+        std::cout << ">>> В массиве не найдено палиндромов" << std::endl;
     } else {
-        std::cout << " the max palindrom is: ";
-        cout_array(array, begin_index, end_index);
+        std::cout << ">>> Найденный палиндром (индексы " << begin_index << "-" << end_index << "): ";
+        output_std_array(array, begin_index, end_index);
     }
     
-    begin_index = 0;
-    end_index = size - 1;
-    quick_array_sort(begin_index, end_index, array);
-    std::cout << " you sorted array is: ";
-    cout_array(array, begin_index, end_index);
+    quick_sort_std_array(0, size - 1, array);
+    std::cout << ">>> Отсортированный массив: ";
+    output_std_array(array, 0, size - 1);
 }

@@ -1,10 +1,11 @@
 #ifndef ARRAYS_H
 #define ARRAYS_H
 
+#include <stdexcept>
 #include <vector>
 #include <array>
-#include "dinamic.array.h"
-
+#include <iostream>
+#include "static.array.h"
 
 const int MAX_SIZE = 1000;
 
