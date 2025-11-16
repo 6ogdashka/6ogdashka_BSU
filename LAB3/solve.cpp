@@ -2,9 +2,9 @@
 #include "russian.h"
 #include "CONST.h"
 #include "vector.h"
-#include "std::array.h"
-#include "static.array.h"
-#include "dinamic.array.h"           // Написатть все это в 1 файле просто самоубийство. Поэтому я разбил вот так
+#include "std_array.h"
+#include "static_array.h"
+#include "dinamyc_array.h"           // Написатть все это в 1 файле просто самоубийство. Поэтому я разбил вот так
                                      // Заодно поработал с файлами .h
 int main() {
     std::cout << "=== Программа работы с массивами ===\n";
