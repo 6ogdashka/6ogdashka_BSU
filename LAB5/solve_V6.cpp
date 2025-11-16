@@ -48,7 +48,7 @@ int main() {
     std::cout << "Выберите функцию для интегрирования:\n";
     std::cout << "1. x·√(1-x) \n";
     std::cout << "2. arcsin(√x)/√(x(1-x)) \n";
-    std::cout << "3. 2 2ˣ/(1+4ˣ) \n";
+    std::cout << "3. 2ˣ/(1+4ˣ) \n";
     
     int32_t choice;
     std::cin >> choice;
