@@ -4,7 +4,8 @@
 #include "vector.h"
 #include "std::array.h"
 #include "static.array.h"
-#include "dinamic.array.h"
+#include "dinamic.array.h"           // Написатть все это в 1 файле просто самоубийство. Поэтому я разбил вот так
+                                     // Заодно поработал с файлами .h
 int main() {
     std::cout << "=== Программа работы с массивами ===\n";
     std::cout << "Выберите тип массива:\n";
