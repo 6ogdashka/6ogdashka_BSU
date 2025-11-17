@@ -5,9 +5,8 @@
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
-#include <ctime>
 
-void input_static_array(double (&array)[MAX_SIZE], int32_t &size);
+void input_static_array(double *array, int32_t &size);
 void output_static_array(double array[], int32_t begin, int32_t end);
 int get_static_array_size(int32_t &size);
 double get_double_value_static();
@@ -22,7 +21,7 @@ void choose_input_method_static(double (&array)[MAX_SIZE], int32_t &size);
 void handle_manual_input_static(double (&array)[MAX_SIZE], int32_t &size);
 void handle_random_input_static(double (&array)[MAX_SIZE], int32_t &size);
 void process_static_array(double (&array)[MAX_SIZE], int32_t &size);
-
+//all
 inline void solve_static_array() {
     setRussianLocale();
     
@@ -145,7 +144,7 @@ inline void quick_sort_static_array(int32_t begin_index, int32_t end_index, doub
     }
 }
 
-inline void input_static_array(double (&array)[MAX_SIZE], int32_t &size) {
+inline void input_static_array(double *array, int32_t size) {
     std::cout << ">>> Введите элементы массива через пробел: ";
     for (int i{}; i < size; ++i) {
         if (!(std::cin >> array[i])) {

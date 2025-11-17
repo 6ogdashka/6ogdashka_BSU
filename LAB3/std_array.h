@@ -6,7 +6,7 @@
 #include <ctime>
 #include <stdexcept>
 #include <array>
-
+//aa
 void input_std_array(std::array<double, MAX_SIZE> &array, int32_t size);
 void output_std_array(std::array<double, MAX_SIZE> array, int32_t begin, int32_t end);
 int get_std_array_size(int32_t &size);

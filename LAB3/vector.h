@@ -6,7 +6,7 @@
 #include <ctime>
 #include <stdexcept>
 #include <vector>
-
+//aa
 void cin_vector(std::vector<double> &array, int32_t &size);
 void cout_vector(std::vector<double> array, int32_t begin, int32_t end);
 int get_vector_size(std::vector<double> vector);
