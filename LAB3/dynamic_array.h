@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
-
+//aa
 void allocate_dynamic_array(double* &array, int32_t size);
 void input_dynamic_array(double* &array, int32_t &size);
 void output_dynamic_array(double* array, int32_t begin, int32_t end);
