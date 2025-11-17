@@ -7,7 +7,7 @@
 #include <stdexcept>
 
 void allocate_dynamic_array(double* &array, int32_t size);
-void input_dynamic_array(double* &array, int32_t size);
+void input_dynamic_array(double* &array, int32_t &size);
 void output_dynamic_array(double* array, int32_t begin, int32_t end);
 int get_dynamic_array_size(int32_t &size);
 double get_double_value_dynamic();
@@ -17,11 +17,11 @@ int find_max_index_dynamic(double* array, int32_t size);
 int find_min_index_dynamic(double* array, int32_t size);
 bool is_dynamic_array_palindrome(int32_t begin, int32_t end, double* array);
 void find_longest_palindrome_dynamic(int32_t size, double* array, int32_t &begin_index, int32_t &end_index);
-void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double* array);
+inline void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double*& array) ;
 void choose_input_method_dynamic(double* &array, int32_t &size);
-void handle_manual_input_dynamic(double* &array, int32_t size);
-void handle_random_input_dynamic(double* &array, int32_t size);
-void process_dynamic_array(double* &array, int32_t size);
+void handle_manual_input_dynamic(double* &array, int32_t &size);
+void handle_random_input_dynamic(double* &array, int32_t &size);
+void process_dynamic_array(double* &array, int32_t &size);
 
 
 inline void solve_dynamic_array() {
@@ -120,7 +120,7 @@ inline void find_longest_palindrome_dynamic(int32_t size, double* array, int32_t
     }
 }
 
-inline void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double* array) {
+inline void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, double*& array) {
     int32_t currently_index = static_cast<int>((end_index-begin_index)/2) + begin_index;
     double currently_numb {array[currently_index]};
     if (end_index - begin_index < 1) {
@@ -149,7 +149,7 @@ inline void quick_sort_dynamic_array(int32_t begin_index, int32_t end_index, dou
     }
 }
 
-inline void input_dynamic_array(double* &array, int32_t size) {
+inline void input_dynamic_array(double* &array, int32_t &size) {
     std::cout << ">>> Введите элементы массива через пробел: ";
     for (int i{}; i < size; ++i) {
         if (!(std::cin >> array[i])) {
@@ -158,10 +158,11 @@ inline void input_dynamic_array(double* &array, int32_t size) {
     }
 }
 
-inline void handle_manual_input_dynamic(double* &array, int32_t size) {
+inline void handle_manual_input_dynamic(double* &array, int32_t &size) {
     std::cout << "==============================================================\n";
     std::cout << "|                  РУЧНОЙ ВВОД МАССИВА                     |\n";
     std::cout << "==============================================================\n";
+    get_dynamic_array_size(size);
     allocate_dynamic_array(array, size);
     input_dynamic_array(array, size);
     std::cout << ">>> Массив успешно введен!\n";
@@ -199,7 +200,7 @@ inline void generate_random_dynamic_array(double* array, int32_t SIZE, double le
     }
 }
 
-inline void handle_random_input_dynamic(double* &array, int32_t size) {
+inline void handle_random_input_dynamic(double* &array, int32_t &size) {
     std::cout << "==============================================================\n";
     std::cout << "|               ГЕНЕРАЦИЯ СЛУЧАЙНОГО МАССИВА               |\n";
     std::cout << "==============================================================\n";
@@ -247,7 +248,7 @@ inline void choose_input_method_dynamic(double* &array, int32_t &size) {
     }
 }
 
-inline void process_dynamic_array(double* &array, int32_t size) {
+inline void process_dynamic_array(double* &array, int32_t &size) {
     std::cout << "\n==============================================================\n";
     std::cout << "|                    РЕЗУЛЬТАТЫ ОБРАБОТКИ                  |\n";
     std::cout << "==============================================================\n";

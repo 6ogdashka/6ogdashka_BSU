@@ -107,34 +107,25 @@ inline void find_longest_palindrome_std(int32_t size, std::array<double, MAX_SIZ
 }
 
 inline void quick_sort_std_array(int32_t begin_index, int32_t end_index, std::array<double, MAX_SIZE> &array) {
-    int32_t current_index = static_cast<int>((end_index - begin_index) / 2) + begin_index;
-    double current_value{array[current_index]};
-    if (end_index - begin_index < 1) {
+    if (begin_index >= end_index) {
         return;
     }
-    for (int32_t i{begin_index}; i <= end_index; ++i) {
-        if ((array[i] <= current_value) && (i > current_index)) {
-            double temp{array[current_index + 1]};
-            array[current_index + 1] = array[i];
-            array[i] = temp;
-            array[current_index] = array[current_index + 1];
-            array[current_index + 1] = current_value;
-            ++current_index; 
-        }
-        if ((array[i] > current_value) && (i < current_index)) {
-            array[current_index] = array[i];
-            array[i] = current_value;
-            current_index = i;
+    
+    double pivot = array[end_index];
+    int32_t i = begin_index - 1;
+    
+    for (int32_t j = begin_index; j <= end_index - 1; ++j) {
+        if (array[j] <= pivot) {
+            ++i;
+            std::swap(array[i], array[j]);
         }
     }
-    if (current_index >= 1) {
-        quick_sort_std_array(begin_index, current_index - 1, array);
-    }
-    if (current_index <= end_index - 1) {
-        quick_sort_std_array(current_index + 1, end_index, array);
-    }
+    std::swap(array[i + 1], array[end_index]);
+    int32_t pivot_index = i + 1;
+    
+    quick_sort_std_array(begin_index, pivot_index - 1, array);
+    quick_sort_std_array(pivot_index + 1, end_index, array);
 }
-
 inline void input_std_array(std::array<double, MAX_SIZE> &array, int32_t size) {
     std::cout << ">>> Введите " << size << " элементов массива:" << std::endl;
     for (int i{}; i < size; ++i) {

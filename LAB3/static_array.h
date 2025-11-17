@@ -6,7 +6,7 @@
 #include <ctime>
 #include <stdexcept>
 
-void input_static_array(double (&array)[MAX_SIZE], int32_t size);
+void input_static_array(double (&array)[MAX_SIZE], int32_t &size);
 void output_static_array(double array[], int32_t begin, int32_t end);
 int get_static_array_size(int32_t &size);
 double get_double_value_static();
@@ -18,9 +18,9 @@ bool is_static_array_palindrome(int32_t begin, int32_t end, double array[]);
 void find_longest_palindrome_static(int32_t size, double array[], int32_t &begin_index, int32_t &end_index);
 void quick_sort_static_array(int32_t begin_index, int32_t end_index, double (&array)[MAX_SIZE]);
 void choose_input_method_static(double (&array)[MAX_SIZE], int32_t &size);
-void handle_manual_input_static(double (&array)[MAX_SIZE], int32_t size);
-void handle_random_input_static(double (&array)[MAX_SIZE], int32_t size);
-void process_static_array(double (&array)[MAX_SIZE], int32_t size);
+void handle_manual_input_static(double (&array)[MAX_SIZE], int32_t &size);
+void handle_random_input_static(double (&array)[MAX_SIZE], int32_t &size);
+void process_static_array(double (&array)[MAX_SIZE], int32_t &size);
 
 inline void solve_static_array() {
     setRussianLocale();
@@ -144,7 +144,7 @@ inline void quick_sort_static_array(int32_t begin_index, int32_t end_index, doub
     }
 }
 
-inline void input_static_array(double (&array)[MAX_SIZE], int32_t size) {
+inline void input_static_array(double (&array)[MAX_SIZE], int32_t &size) {
     std::cout << ">>> Введите элементы массива через пробел: ";
     for (int i{}; i < size; ++i) {
         if (!(std::cin >> array[i])) {
@@ -153,10 +153,11 @@ inline void input_static_array(double (&array)[MAX_SIZE], int32_t size) {
     }
 }
 
-inline void handle_manual_input_static(double (&array)[MAX_SIZE], int32_t size) {
+inline void handle_manual_input_static(double (&array)[MAX_SIZE], int32_t &size) {
     std::cout << "==============================================================\n";
     std::cout << "|                  РУЧНОЙ ВВОД МАССИВА                     |\n";
     std::cout << "==============================================================\n";
+    get_static_array_size(size);
     input_static_array(array, size);
     std::cout << ">>> Массив успешно введен!\n";
 }
@@ -193,7 +194,7 @@ inline void generate_random_static_array(double (&array)[MAX_SIZE], int32_t SIZE
     }
 }
 
-inline void handle_random_input_static(double (&array)[MAX_SIZE], int32_t size) {
+inline void handle_random_input_static(double (&array)[MAX_SIZE], int32_t &size) {
     std::cout << "==============================================================\n";
     std::cout << "|               ГЕНЕРАЦИЯ СЛУЧАЙНОГО МАССИВА               |\n";
     std::cout << "==============================================================\n";
@@ -240,7 +241,7 @@ inline void choose_input_method_static(double (&array)[MAX_SIZE], int32_t &size)
     }
 }
 
-inline void process_static_array(double (&array)[MAX_SIZE], int32_t size) {
+inline void process_static_array(double (&array)[MAX_SIZE], int32_t &size) {
     std::cout << "\n==============================================================\n";
     std::cout << "|                    РЕЗУЛЬТАТЫ ОБРАБОТКИ                  |\n";
     std::cout << "==============================================================\n";
@@ -265,5 +266,7 @@ inline void process_static_array(double (&array)[MAX_SIZE], int32_t size) {
     end_index = size - 1;
     quick_sort_static_array(begin_index, end_index, array);
     std::cout << ">>> Отсортированный массив: ";
+    begin_index = 0;
+    end_index = size - 1;
     output_static_array(array, begin_index, end_index);
 }
