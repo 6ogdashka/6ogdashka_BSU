@@ -1,8 +1,9 @@
 #include <iostream>
-
+#include "russian.h"
 double get_double_value ();
 
 int main() {
+    setRussianLocale();
     try {
     double a;
     std::cout << "Введите сторону квадрата a: ";

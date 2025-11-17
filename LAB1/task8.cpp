@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cmath>
-
+#include "russian.h"
 double get_positive_value ();
 
 int main() {
     try {
+    setRussianLocale();
     std::cout << "Введите координаты вершин треугольника (x1, y1, x2, y2, x3, y3): ";
     double x1 = get_positive_value();
     double y1 = get_positive_value();

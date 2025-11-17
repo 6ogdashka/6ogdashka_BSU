@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include "russian.h"
 int get_natural_value ();
 
 int main() {
     try {
+    setRussianLocale();
     int number;
     std::cout << "Введите трехзначное число: ";
     number = get_natural_value();

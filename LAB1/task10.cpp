@@ -1,11 +1,12 @@
 #include <iostream>
-
+#include "russian.h"
 int get_day_value ();
 int get_month_value();
 int get_year_value();
 
 int main() {
     try {
+    setRussianLocale();
     std::cout << "Введите дату рождения (день месяц год): ";
     int birth_day = get_day_value(), 
         birth_month = get_month_value(), 

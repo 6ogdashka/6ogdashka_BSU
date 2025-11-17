@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include "russian.h"
 double get_positive_value ();
 
 int main() {
     try {
+    setRussianLocale();
     const double kPi = 3.1415927;
     double L;
     std::cout << "Введите длину окружности L: ";

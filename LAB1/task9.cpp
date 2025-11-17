@@ -1,10 +1,11 @@
 #include <iostream>
-
+#include "russian.h"
 int get_hour_value ();
 int get_minut_value();
 
 int main() {
     try {
+    setRussianLocale();
     std::cout << "Введите время прибытия (часы минуты): ";
     int arrival_hours = get_hour_value(), 
         arrival_minutes = get_minut_value();
