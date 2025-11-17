@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <ctime>
 #include <stdexcept>
+#include <ctime>
 
 void input_static_array(double (&array)[MAX_SIZE], int32_t &size);
 void output_static_array(double array[], int32_t begin, int32_t end);
@@ -240,7 +241,7 @@ inline void choose_input_method_static(double (&array)[MAX_SIZE], int32_t &size)
         }
     }
 }
-
+//kkdkkkv
 inline void process_static_array(double (&array)[MAX_SIZE], int32_t &size) {
     std::cout << "\n==============================================================\n";
     std::cout << "|                    РЕЗУЛЬТАТЫ ОБРАБОТКИ                  |\n";
