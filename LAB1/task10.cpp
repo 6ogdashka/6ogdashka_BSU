@@ -1,14 +1,19 @@
 #include <iostream>
 
+int get_day_value ();
+int get_month_value();
+int get_year_value();
+
 int main() {
-    int birth_day, birth_month, birth_year;
-    int current_day, current_month, current_year;
-
+    try {
     std::cout << "Введите дату рождения (день месяц год): ";
-    std::cin >> birth_day >> birth_month >> birth_year;
+    int birth_day = get_day_value(), 
+        birth_month = get_month_value(), 
+        birth_year = get_year_value();
     std::cout << "Введите текущую дату (день месяц год): ";
-    std::cin >> current_day >> current_month >> current_year;
-
+    int current_day = get_day_value(), 
+        current_month = get_month_value(), 
+        current_year = get_year_value();
     const int total_months_in_year = 12;
     const int total_days_in_month = 30;
 
@@ -22,6 +27,33 @@ int main() {
     int age_days = age_total_days % total_days_in_month;
 
     std::cout << "Возраст: " << age_years << " лет, " << age_months << " месяцев, " << age_days << " дней\n";
-
+    } catch ( const char* msg) { std::cout << msg; }
     return 0;
+}
+
+int get_day_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1) && ( value <= 30)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
+}
+
+int get_month_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1) && ( value <= 12)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
+}
+
+int get_year_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
 }
