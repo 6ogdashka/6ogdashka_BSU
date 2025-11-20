@@ -68,6 +68,7 @@ int main() {
             break;
         }
         default: {
+            delete p;
             throw "Неверный выбор функции!\n";
         }
     }
