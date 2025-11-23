@@ -1,5 +1,4 @@
 #include "russian.h"
-
 #include <cstddef>
 #include <cstring>
 #include <iostream>
@@ -7,7 +6,7 @@
 #include <string.h>
 #include <unordered_map>
 
-const size_t MAX_SIZE = 300;
+const size_t MAX_SIZE = 300; 
 
 int countingUnique(char* string) {
     std::unordered_map<char, int> unique;
