@@ -4,6 +4,8 @@
 #include <vector>
 #include "russian.h"
 
+//я решил не разбивать на функции, потому что это код в раза 2 больше сделает.ф
+
 int main () {
     setRussianLocale();
     std::string input_str;
