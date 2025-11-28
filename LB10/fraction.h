@@ -6,6 +6,7 @@
 #include <numeric>
 #include <ostream>
 #include <stdexcept>
+#include <exception>
 
 class Fraction {
     private:
