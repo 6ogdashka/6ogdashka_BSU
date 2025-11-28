@@ -1,6 +1,4 @@
 #include "fraction.h"
-#include <exception>
-#include <istream>
 
 Fraction::Fraction() noexcept : numerator_(0), denominator_(1){
 }
