@@ -1,5 +1,4 @@
 #include "fraction.h"
-#include <exception>
 
 Fraction::Fraction() noexcept : numerator_(0), denominator_(1){
 }
