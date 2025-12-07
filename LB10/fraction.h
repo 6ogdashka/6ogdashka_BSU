@@ -13,15 +13,18 @@ class Fraction {
 
         int64_t numerator_;
         int64_t denominator_;
+        bool to_simplify_ = true;
 
         Fraction& Normalize() {
-            if ( this->denominator_ < 0) {
-                this->denominator_ *= -1;
-                this->numerator_ *= -1;
+            if ( (*this).to_simplify_ == true) {
+                if ( this->denominator_ < 0) {
+                    this->denominator_ *= -1;
+                    this->numerator_ *= -1;
+                }
+                auto e = std::gcd(this->numerator_, this->denominator_);
+                this->denominator_ /= e;
+                this->numerator_ /= e;
             }
-            auto e = std::gcd(this->numerator_, this->denominator_);
-            this->denominator_ /= e;
-            this->numerator_ /= e;
             return (*this);
         }
 
@@ -31,7 +34,7 @@ class Fraction {
 
         Fraction( double) noexcept;
         
-        Fraction(int, int);
+        Fraction(int, int, bool);
         
         Fraction(const Fraction &) noexcept;
         
@@ -124,6 +127,10 @@ class Fraction {
         int64_t GetDen () const noexcept {
             return (*this).denominator_;
         };
+
+        Fraction& SetNum ( const int) noexcept;
+
+        Fraction& SetDen ( const int);
 
         friend double ToDouble (const Fraction&) noexcept;
 

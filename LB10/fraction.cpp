@@ -1,4 +1,5 @@
 #include "fraction.h"
+#include <exception>
 
 Fraction::Fraction() noexcept : numerator_(0), denominator_(1){
 }
@@ -9,7 +10,8 @@ Fraction::Fraction( double a) noexcept {
     (*this).Normalize();
 }
 
-Fraction::Fraction(int a, int b) : numerator_(a), denominator_(b) {
+Fraction::Fraction(int a, int b, bool to_simplified = true) : numerator_(a), denominator_(b) {
+    (*this).to_simplify_ = to_simplified;
     if ( b == 0) {
         throw std::exception();
     }
@@ -19,11 +21,13 @@ Fraction::Fraction(int a, int b) : numerator_(a), denominator_(b) {
 Fraction::Fraction( const Fraction& a) noexcept {
     this->numerator_ = a.numerator_;
     this->denominator_ = a.denominator_;
+    this->to_simplify_ = a.to_simplify_;
 }
 
 Fraction::Fraction(Fraction&& other) noexcept {
     (*this).numerator_ = other.numerator_;
     (*this).denominator_ = other.denominator_;
+    (*this).to_simplify_ = other.to_simplify_;
     other.numerator_ = 0;
     other.denominator_ = 0;
 }
@@ -31,12 +35,14 @@ Fraction::Fraction(Fraction&& other) noexcept {
 Fraction& Fraction::operator=(const Fraction& a) noexcept{
     this->numerator_ = a.numerator_;
     this->denominator_ = a.denominator_;
+    this->to_simplify_ = a.to_simplify_;
     return (*this);
 };
         
 Fraction& Fraction::operator=(Fraction&& a) noexcept {
     this->numerator_ = a.numerator_;
     this->denominator_ = a.denominator_;
+    this->to_simplify_ = a.to_simplify_;
     a.numerator_ = 0;
     a.denominator_ = 0;
     return (*this);
@@ -314,6 +320,21 @@ std::ostream& operator<<( std::ostream& out, const Fraction& a) noexcept {
         out << 0;
     }
     return out;
+};
+
+Fraction& Fraction::SetNum ( const int a) noexcept {
+    this->numerator_ = a;
+    (*this).Normalize();
+    return (*this);
+}
+
+Fraction& Fraction::SetDen ( const int a) {
+    if ( a == 0) {
+        throw std::exception();
+    }
+    this->denominator_ = a;
+    (*this).Normalize();
+    return (*this);
 };
 
 double ToDouble ( const Fraction& a) noexcept {

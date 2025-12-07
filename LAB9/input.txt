@@ -1,0 +1,108 @@
+=== Тест 1 ===
+racecar
+madam
+level
+radar
+civic
+
+
+=== Тест 2 ===
+a
+aba
+abba
+abcba
+abccba
+abcdcba
+
+
+=== Тест 3 ===
+test
+hello
+world
+python
+programming
+
+
+=== Тест 4 ===
+
+
+
+ 
+
+
+=== Тест 5 ===
+a man a plan a canal panama
+was it a car or a cat i saw
+
+
+=== Тест 6 ===
+12321
+1a1
+@@@
+$$$$$
+A man, a plan, a canal: Panama!
+
+
+=== Тест 7 ===
+казак
+шалаш
+ротор
+топот
+上海自来水来自海上
+
+
+=== Тест 8 ===
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+abcba
+
+
+=== Тест 9 ===
+racecar
+madamim
+leveled
+rotator
+repaper
+redivider
+deified
+civic
+radar
+tenet
+solos
+stats
+hello
+world
+
+
+=== Тест 10 ===
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+ababababababababababababababababababababababababab
+abcdefghijklmnopqrstuvwxyzyxwvutsrqponmlkjihgfedcba
+
+
+=== Дополнительный тест: 15 строк с макс. палиндромом длины 7 ===
+racecar
+abccba
+abcdcba
+racecar
+abccba
+abcdcba
+racecar
+abccba
+abcdcba
+racecar
+abccba
+abcdcba
+racecar
+abccba
+abcdcba
