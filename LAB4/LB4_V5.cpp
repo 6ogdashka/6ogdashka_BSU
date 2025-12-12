@@ -15,7 +15,7 @@ void old_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns);
 void new_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns);
 void allocate_matrix(int**& mattrix, int32_t rows, int32_t columns);
 bool search_negative_number_in_row(int*& row, int32_t size);
-int product_of_element_in_row(int*& row, int32_t size);
+long long product_of_element_in_row(int*& row, int32_t size);
 void product_of_element_in_positive_rows_in_matrix(int**& matrix, int32_t rows, int32_t columns);
 int max_element_in_matrix(int**& matrix, int32_t rows, int32_t columns);
 int search_rows_with_max_element(int**& matrix, int32_t rows, int32_t columns, int32_t max);
@@ -40,7 +40,7 @@ int main() {
     } catch (const char* msg) {
         std::cout << msg;
     }
-    delete_matrix(matrix, rows, columns);
+    if ( matrix != nullptr) { delete_matrix(matrix, rows, columns); };
     return 0;
 }
 
@@ -102,7 +102,6 @@ void old_random_generate_matrix(int**& matrix, int32_t rows, int32_t columns) {
     }
 
     if (left_range_of_elements > right_range_of_element) {
-        std::cout << "⚠  Диапазон автоматически исправлен" << std::endl;
         std::swap(left_range_of_elements, right_range_of_element);
     }
 
@@ -183,8 +182,8 @@ bool search_negative_number_in_row(int*& row, int32_t size) {
     return true;
 }
 
-int product_of_element_in_row(int*& row, int32_t size) {
-    int product{1};
+long long product_of_element_in_row(int*& row, int32_t size) {
+    long long product{1};
     for (int32_t i{}; i < size; ++i) {
         product *= row[i];
     }
@@ -208,9 +207,7 @@ void product_of_element_in_positive_rows_in_matrix(int**& matrix, int32_t rows, 
 }
 
 void swap_rows(int**& matrix, int first_rows, int second_row, int32_t size) {
-    for (int i{}; i < size; ++i) {
-        std::swap(matrix[first_rows][i], matrix[second_row][i]);
-    }
+    std::swap(matrix[first_rows],matrix[second_row]);
 }
 
 void swap_columns(int**& matrix, int32_t first_column, int32_t second_column, int32_t size) {

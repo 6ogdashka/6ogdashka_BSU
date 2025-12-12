@@ -34,7 +34,7 @@ class Fraction {
 
         Fraction( double) noexcept;
         
-        Fraction(int, int, bool);
+        Fraction(int, int, bool=true);
         
         Fraction(const Fraction &) noexcept;
         
@@ -58,11 +58,17 @@ class Fraction {
         
         Fraction& operator!();
         
-        bool operator==(const Fraction&);
+        bool operator==(const Fraction&) ;
         
         bool operator==(const double);
 
         friend bool operator==(const double,const Fraction&);
+
+        bool operator!=(const Fraction&) ;
+        
+        bool operator!=(const double);
+
+        friend bool operator!=(const double,const Fraction&);
 
         Fraction operator-(const Fraction&) const noexcept;
 
@@ -84,15 +90,15 @@ class Fraction {
 
         Fraction& operator+= ( const double) noexcept;
 
-        Fraction operator/( const Fraction&) const noexcept;
+        Fraction operator/( const Fraction&) const;
 
         Fraction operator/( const double) const;
 
-        friend Fraction operator/( const double, const Fraction&) noexcept;
+        friend Fraction operator/( const double, const Fraction&);
 
-        Fraction& operator/=( const Fraction&) noexcept;
+        Fraction& operator/=( const Fraction&);
 
-        Fraction& operator/=( const double) noexcept;
+        Fraction& operator/=( const double);
 
         Fraction operator*( const Fraction&) const noexcept;
 

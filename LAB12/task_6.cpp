@@ -4,89 +4,203 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <stdexcept>
+#include <cctype>
+#include "russian.h"
 
-using namespace std;
+namespace {
 
 struct SMark {
-    string Subject;
-    int Mark;
+    std::string subject;
+    int mark;
 };
 
 struct SStudData {
-    string Name;
-    int Number;
-    vector<SMark> Marks;
+    std::string name;
+    int number;
+    std::vector<SMark> marks;
 };
 
-void printStudentsBySubject(const map<int, SStudData>& students, const string& subject);
-
-int main() {
-    map<int, SStudData> students;
-    
-    ifstream file("input.txt");
-    if (!file) {
-        cerr << "Ошибка открытия файла!" << endl;
-        return 1;
+std::string TrimString(const std::string& str) {
+    size_t start = 0;
+    while (start < str.length() && std::isspace(str[start])) {
+        ++start;
     }
     
-    string line;
-    while (getline(file, line)) {
-        if (line.empty()) continue;
-        
-        SStudData student;
-        istringstream iss(line);
-        
-        iss >> student.Name;
-        
-        iss >> student.Number;
-        
-        string mark_pair;
-        while (iss >> mark_pair) {
-            size_t colonPos = mark_pair.find(':');
-            if (colonPos != string::npos) {
-                SMark mark;
-                mark.Subject = mark_pair.substr(0, colonPos);
-                mark.Mark = stoi(mark_pair.substr(colonPos + 1));
-                student.Marks.push_back(mark);
-            }
+    size_t end = str.length();
+    while (end > start && std::isspace(str[end - 1])) {
+        --end;
+    }
+    
+    return str.substr(start, end - start);
+}
+
+void ValidateStudentData(const SStudData& student) {
+    if (student.name.empty()) {
+        throw std::invalid_argument("Имя студента не может быть пустым");
+    }
+    
+    if (student.number <= 0) {
+        throw std::invalid_argument("Номер зачетки должен быть положительным");
+    }
+    
+    for (const SMark& mark : student.marks) {
+        if (mark.subject.empty()) {
+            throw std::invalid_argument("Название предмета не может быть пустым");
         }
         
-        students[student.Number] = student;
+        if (mark.mark < 1) {
+            throw std::invalid_argument("Оценка должна быть от 1");
+        }
+    }
+}
+
+SStudData ParseStudentLine(const std::string& line) {
+    std::istringstream iss(line);
+    SStudData student;
+    
+    if (!(iss >> student.name)) {
+        throw std::invalid_argument("Не удалось прочитать имя студента");
+    }
+    
+    if (!(iss >> student.number)) {
+        throw std::invalid_argument("Не удалось прочитать номер зачетки");
+    }
+    
+    std::string mark_pair;
+    while (iss >> mark_pair) {
+        size_t colon_pos = mark_pair.find(':');
+        if (colon_pos == std::string::npos) {
+            throw std::invalid_argument("Неверный формат оценки: " + mark_pair);
+        }
+        
+        SMark mark;
+        mark.subject = mark_pair.substr(0, colon_pos);
+        
+        try {
+            mark.mark = std::stoi(mark_pair.substr(colon_pos + 1));
+        } catch (const std::exception&) {
+            throw std::invalid_argument("Неверный формат оценки: " + mark_pair);
+        }
+        
+        student.marks.push_back(mark);
+    }
+    
+    ValidateStudentData(student);
+    return student;
+}
+
+std::map<int, SStudData> ReadStudentsFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    
+    if (!file) {
+        throw std::runtime_error("Не удалось открыть файл: " + filename);
+    }
+    
+    std::map<int, SStudData> students;
+    std::string line;
+    int line_number = 0;
+    
+    while (std::getline(file, line)) {
+        ++line_number;
+        
+        std::string trimmed_line = TrimString(line);
+        if (trimmed_line.empty()) {
+            continue;
+        }
+        
+        try {
+            SStudData student = ParseStudentLine(trimmed_line);
+            
+            if (students.count(student.number) > 0) {
+                std::cerr << "Предупреждение: студент с номером " 
+                          << student.number << " уже существует. Заменяем.\n";
+            }
+            
+            students[student.number] = student;
+            
+        } catch (const std::invalid_argument& e) {
+            throw std::runtime_error("Ошибка в строке " + std::to_string(line_number) + 
+                                   ": " + e.what());
+        }
     }
     
     file.close();
     
-    string subject;
-    cout << "Введите название предмета: ";
-    getline(cin, subject);
+    if (students.empty()) {
+        throw std::runtime_error("Файл не содержит данных о студентах");
+    }
     
-    printStudentsBySubject(students, subject);
-    
-    return 0;
+    return students;
 }
 
-void printStudentsBySubject(const map<int, SStudData>& students, const string& subject) {
-    cout << "Студенты, сдававшие предмет \"" << subject << "\":" << endl;
-    cout << "----------------------------------------" << endl;
+std::string GetSubjectFromUser() {
+    std::string subject;
+    std::cout << "Введите название предмета: ";
+    
+    if (!std::getline(std::cin, subject)) {
+        throw std::runtime_error("Ошибка при чтении названия предмета");
+    }
+    
+    std::string trimmed_subject = TrimString(subject);
+    if (trimmed_subject.empty()) {
+        throw std::invalid_argument("Название предмета не может быть пустым");
+    }
+    
+    return trimmed_subject;
+}
+
+void PrintStudentsBySubject(const std::map<int, SStudData>& students, 
+                           const std::string& subject) {
+    std::cout << "Студенты, сдававшие предмет \"" << subject << "\":\n";
+    std::cout << "----------------------------------------\n";
     
     bool found = false;
-    for (const auto& student : students) {
-        const SStudData& studData = student.second;
-        for (const auto& mark : studData.Marks) {
-            if (mark.Subject == subject) {
+    for (const auto& entry : students) {
+        const SStudData& student = entry.second;
+        
+        for (const SMark& mark : student.marks) {
+            if (mark.subject == subject) {
                 found = true;
-
-                cout << "Номер зачетки: " << studData.Number << endl;
-                cout << "ФИО: " << studData.Name << endl;
-                cout << "Оценка по предмету: " << mark.Mark << endl;
-                cout << "\n----------------------------------------" << endl;
-
-                break; 
+                std::cout << "Номер зачетки: " << student.number << "\n";
+                std::cout << "ФИО: " << student.name << "\n";
+                std::cout << "Оценка по предмету: " << mark.mark << "\n";
+                std::cout << "\n----------------------------------------\n";
+                break;
             }
         }
     }
     
     if (!found) {
-        cout << "Студентов, сдававших предмет \"" << subject << "\", не найдено." << endl;
+        std::cout << "Студентов, сдававших предмет \"" << subject << "\", не найдено.\n";
+    }
+}
+
+void Solve() {
+    const std::string filename = "input.txt";
+    std::map<int, SStudData> students = ReadStudentsFromFile(filename);
+    std::string subject = GetSubjectFromUser();
+    PrintStudentsBySubject(students, subject);
+}
+
+}
+
+int main() {
+    setRussianLocale();
+    try {
+        Solve();
+        return 0;
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Ошибка ввода: " << e.what() << "\n";
+        return 1;
+    } catch (const std::runtime_error& e) {
+        std::cerr << "Ошибка выполнения: " << e.what() << "\n";
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << "\n";
+        return 1;
+    } catch (...) {
+        std::cerr << "Неизвестная ошибка!\n";
+        return 1;
     }
 }

@@ -9,6 +9,7 @@ class Function {
     public:
     virtual double operator() (double x) = 0;
 };
+
 class Function1 : public Function {
     public:
      double operator() (double x) override {
@@ -27,7 +28,9 @@ class Function3 : public Function {
         return pow(2, x) / (1 + pow(4, x));
     }
 };
+
 double get_double_value(); 
+int get_int_value();
 double left_rectangle_method(
     Function* f, double low_limit, double high_limit,
     const double exactness);
@@ -68,7 +71,6 @@ int main() {
             break;
         }
         default: {
-            delete p;
             throw "Неверный выбор функции!\n";
         }
     }
@@ -80,8 +82,8 @@ int main() {
     std::cout << "4. Метод трапеций\n";
     std::cout << "5. Метод Симпсона\n";
     
-    int32_t method_choice;
-    std::cin >> method_choice;
+    int32_t method_choice = get_int_value();
+    
 
     double low_limit, high_limit, exactness;
     std::cout << "\nВведите нижний предел интегрирования: ";
@@ -116,9 +118,10 @@ int main() {
         default: {
             delete p;
             throw  "Неверный выбор метода!\n";
+            break;
         }
     }
-    std::cout << std::setprecision( 30);
+    std::cout << std::setprecision( std::abs(std::log10(exactness)));
     std::cout << "\nРезультат интегрирования: " << result << std::endl;
     delete p;
     } catch ( const char* msg) { std::cout << msg; }
@@ -127,6 +130,14 @@ int main() {
 
 double get_double_value() {
     double value {};
+    if (!(std::cin >> value)) {
+        throw std::invalid_argument("некорректное значение");
+    }
+    return value;
+}
+
+int get_int_value() {
+    int value {};
     if (!(std::cin >> value)) {
         throw std::invalid_argument("некорректное значение");
     }
@@ -239,7 +250,7 @@ double trapezoid_method(
             }
             current_result = 0;
             for ( int32_t i {0}; i < 2*n; ++i) {
-                 double x_i = low_limit + (i * range / (2*n));
+                 double x_i = low_limit + (i * range / (2 * n));
                  double x_i1 = low_limit + ( (i+1) * range / (2*n));
                  current_result += ((((*f)(x_i) + (*f)(x_i1))/2)* (range / (2*n)));
                  result = current_result;

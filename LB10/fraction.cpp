@@ -9,29 +9,29 @@ Fraction::Fraction( double a) noexcept {
     (*this).Normalize();
 }
 
-Fraction::Fraction(int a, int b, bool to_simplified = true) : numerator_(a), denominator_(b) {
+Fraction::Fraction(int a, int b, bool to_simplified ) : numerator_(a){
     (*this).to_simplify_ = to_simplified;
     if ( b == 0) {
         throw std::exception();
     }
+    denominator_ = b;
     (*this).Normalize();
 }
 
-Fraction::Fraction( const Fraction& a) noexcept {
-    this->numerator_ = a.numerator_;
-    this->denominator_ = a.denominator_;
-    this->to_simplify_ = a.to_simplify_;
-}
+Fraction::Fraction( const Fraction& a) noexcept : 
+    numerator_(a.numerator_), denominator_(a.denominator_), to_simplify_(a.to_simplify_) {};
 
-Fraction::Fraction(Fraction&& other) noexcept {
-    (*this).numerator_ = other.numerator_;
-    (*this).denominator_ = other.denominator_;
-    (*this).to_simplify_ = other.to_simplify_;
+Fraction::Fraction(Fraction&& other) noexcept :
+    numerator_(other.numerator_), denominator_(other.denominator_), to_simplify_(other.to_simplify_){
     other.numerator_ = 0;
     other.denominator_ = 0;
 }
 
-Fraction& Fraction::operator=(const Fraction& a) noexcept{
+Fraction& Fraction::operator=(const Fraction& a) noexcept {
+    if ( &a == this ) {
+        return (*this);
+    }
+
     this->numerator_ = a.numerator_;
     this->denominator_ = a.denominator_;
     this->to_simplify_ = a.to_simplify_;
@@ -47,39 +47,32 @@ Fraction& Fraction::operator=(Fraction&& a) noexcept {
     return (*this);
 };
         
-Fraction::~Fraction() noexcept {
-    this->numerator_ = 0;
-    this->denominator_ = 0;
-};
+Fraction::~Fraction() noexcept  = default;
 
 Fraction& Fraction::operator-() {
-    (*this).numerator_ *= -1;
+    (*this).numerator_ = -numerator_;
     return (*this);
 }
 
 Fraction& Fraction::operator++() {
     (*this).numerator_ += (*this).denominator_;
-    (*this).Normalize();
     return (*this);
 }
 
 Fraction Fraction::operator++(int k) {
     Fraction copy((*this));
     (*this).numerator_ += (*this).denominator_;
-    (*this).Normalize();
     return copy;
 }
 
 Fraction& Fraction::operator--() {
     (*this).numerator_ -= (*this).denominator_;
-    (*this).Normalize();
     return (*this);
 }
 
 Fraction Fraction::operator--(int k) {
     Fraction copy(*this);
     (*this).numerator_ -= (*this).denominator_;
-    (*this).Normalize();
     return copy;
 }
 
@@ -92,26 +85,27 @@ Fraction& Fraction::operator!() {
 }
 
 bool Fraction::operator==(const Fraction& other) {
-    if ((other.numerator_ == (*this).numerator_) && (other.denominator_ == (*this).denominator_))
-    return true;
-    else 
-    return false;
+    return ((other.numerator_ == (*this).numerator_) && (other.denominator_ == (*this).denominator_));
 }
 
 bool Fraction::operator==(const double a) {
-    if (static_cast<double>(((*this).numerator_*1.0 / (*this).denominator_)) == a) {
-        return true;
-    } else {
-        return false;
-    }
+    return (static_cast<double>(((*this).numerator_*1.0 / (*this).denominator_)) == a);
 }
 
 bool operator==(const double a, const Fraction& b) {
-    if ( static_cast<double>((b.numerator_*1.0 / b.denominator_)) == a  ) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( static_cast<double>((b.numerator_*1.0 / b.denominator_)) == a  );
+}
+
+bool Fraction::operator!=(const Fraction& other) {
+    return !((*this) == other);
+}
+
+bool Fraction::operator!=(const double a) {
+    return !((*this) == a);
+}
+
+bool operator!=(const double a, Fraction& b) {
+    return !(b == a);
 }
 
 Fraction Fraction::operator-(const Fraction& a) const noexcept {
@@ -148,11 +142,7 @@ Fraction Fraction::operator+( const double a) const noexcept {
 }
 
 Fraction operator+( const double a, const Fraction& b) noexcept {
-    Fraction copy_b (b);
-    double copy_a(a);
-    Fraction result = ( copy_b - (-copy_a));
-    result.Normalize();
-    return  result;;
+    return b + a;
 }
 
 Fraction& Fraction::operator+=( const Fraction& a) noexcept {
@@ -175,8 +165,11 @@ Fraction& Fraction::operator-=( const double a ) noexcept {
     return (*this);
 }
 
-Fraction Fraction::operator/(const Fraction& a) const noexcept {
+Fraction Fraction::operator/(const Fraction& a) const {
     Fraction result;
+    if ( a.numerator_ == 0) {
+        throw std::invalid_argument(" division by zero ");
+    }
     result.numerator_ = numerator_ * a.denominator_;
     result.denominator_ = denominator_ * a.numerator_;
     result.Normalize();
@@ -186,7 +179,7 @@ Fraction Fraction::operator/(const Fraction& a) const noexcept {
 Fraction Fraction::operator/(const double a) const {
     Fraction result;
     if ( a == 0) {
-        throw std::exception();
+        throw std::invalid_argument(" division by zero ");
     }
     result.numerator_ = numerator_;
     result.denominator_ = denominator_ * a;
@@ -194,22 +187,31 @@ Fraction Fraction::operator/(const double a) const {
     return result;
 }
 
-Fraction operator/(const double a, const Fraction& b) noexcept {
+Fraction operator/(const double a, const Fraction& b) {
     Fraction result;
+    if ( a == 0) {
+        throw std::invalid_argument(" division by zero ");
+    }
     result.numerator_ = a * b.denominator_;
     result.denominator_ = b.numerator_;
     result.Normalize();
     return result;
 }
 
-Fraction& Fraction::operator/=(const Fraction& a) noexcept {
+Fraction& Fraction::operator/=(const Fraction& a){
+    if ( a.numerator_ == 0) {
+        throw std::invalid_argument(" division by zero ");
+    }
     numerator_ = numerator_ * a.denominator_;
     denominator_ = denominator_ * a.numerator_;
     Normalize();
     return (*this);
 }
 
-Fraction& Fraction::operator/=(const double a) noexcept {
+Fraction& Fraction::operator/=(const double a){
+    if ( a == 0) {
+        throw std::invalid_argument(" division by zero ");
+    }
     denominator_ = denominator_ * a;
     Normalize();
     return (*this);
@@ -253,30 +255,15 @@ Fraction& Fraction::operator*=(const double a) noexcept {
 }
 
 bool Fraction::operator<(const Fraction& a) const noexcept {
-    Fraction temp = ((*this) - a);
-    if (temp.numerator_ < 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return (((*this) - a) < 0);
 }
 
 bool Fraction::operator<(const double a) const noexcept {
-    Fraction temp = ((*this) - a);
-    if (temp.numerator_ < 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return (((*this) - a) < 0 );
 }
 
 bool operator<(const double a, const Fraction& b) noexcept {
-    Fraction temp = (a - b);
-    if (temp.numerator_ < 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return ( (a-b) < 0);
 }
 
 bool Fraction::operator>(const Fraction& a) const noexcept {
@@ -353,3 +340,5 @@ Fraction Fraction::pow(int exponent) const {
     }
     return exponent > 0 ? result : !result;
 }
+
+
