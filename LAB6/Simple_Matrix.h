@@ -15,9 +15,9 @@ public:
         : std::runtime_error(message) {}
 };
 
-class IOException : public std::runtime_error {
+class FileException : public std::runtime_error {
 public:
-    explicit IOException(const std::string& message) 
+    explicit FileException(const std::string& message) 
         : std::runtime_error(message) {}
 };
 
@@ -60,7 +60,7 @@ class Matrix {
         void CopyDataFrom(const Matrix& other);
         void ValidateIndices(int row, int col) const;
         void CheckNotEmpty() const;
-        
+
 };
 
 template<> int Matrix<int>::GenerateRandomValue() const;

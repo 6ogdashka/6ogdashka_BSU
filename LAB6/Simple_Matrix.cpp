@@ -147,7 +147,7 @@ void Matrix<T>::WriteToFile(const std::string& filename) const {
     CheckNotEmpty();
     std::ofstream file(filename);
     if (!file.is_open()) {
-        throw IOException("Не удалось открыть файл для записи: " + filename);
+        throw FileException("Не удалось открыть файл для записи: " + filename);
     }
     
     file << rows_ << " " << cols_ << "\n";
@@ -159,7 +159,7 @@ void Matrix<T>::WriteToFile(const std::string& filename) const {
     }
     
     if (file.fail()) {
-        throw IOException("Ошибка записи в файл: " + filename);
+        throw FileException("Ошибка записи в файл: " + filename);
     }
     
     file.close();
@@ -170,12 +170,12 @@ template<typename T>
 void Matrix<T>::ReadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
-        throw IOException("Не удалось открыть файл для чтения: " + filename);
+        throw FileException("Не удалось открыть файл для чтения: " + filename);
     }
     
     int new_rows, new_cols;
     if (!(file >> new_rows >> new_cols) || new_rows <= 0 || new_cols <= 0) {
-        throw IOException("Некорректные размеры в файле: " + filename);
+        throw FileException("Некорректные размеры в файле: " + filename);
     }
     
     DeallocateMemory();
@@ -186,13 +186,13 @@ void Matrix<T>::ReadFromFile(const std::string& filename) {
     for (int i = 0; i < rows_; ++i) {
         for (int j = 0; j < cols_; ++j) {
             if (!(file >> data_[i][j])) {
-                throw IOException("Ошибка чтения данных из файла: " + filename);
+                throw FileException("Ошибка чтения данных из файла: " + filename);
             }
         }
     }
     
     if (file.fail() && !file.eof()) {
-        throw IOException("Ошибка формата файла: " + filename);
+        throw FileException("Ошибка формата файла: " + filename);
     }
     
     file.close();
