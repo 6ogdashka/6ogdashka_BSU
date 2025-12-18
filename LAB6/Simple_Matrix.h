@@ -25,7 +25,7 @@ template<typename T>
 class Matrix {
 
     public:
-
+        
         Matrix(int rows, int cols);
         Matrix(const Matrix& other);
         Matrix(Matrix&& other) noexcept;
