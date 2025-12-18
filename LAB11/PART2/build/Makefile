@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named run_tests
+# Target rules for targets named main_program
 
 # Build rule for target.
-run_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_tests
-.PHONY : run_tests
+main_program: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_program
+.PHONY : main_program
 
 # fast build rule for target.
-run_tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-.PHONY : run_tests/fast
+main_program/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/build
+.PHONY : main_program/fast
 
 Library.o: Library.cpp.o
 .PHONY : Library.o
 
 # target to build an object file
 Library.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/Library.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/Library.cpp.o
 .PHONY : Library.cpp.o
 
 Library.i: Library.cpp.i
@@ -142,7 +142,7 @@ Library.i: Library.cpp.i
 
 # target to preprocess a source file
 Library.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/Library.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/Library.cpp.i
 .PHONY : Library.cpp.i
 
 Library.s: Library.cpp.s
@@ -150,32 +150,32 @@ Library.s: Library.cpp.s
 
 # target to generate assembly for a file
 Library.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/Library.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/Library.cpp.s
 .PHONY : Library.cpp.s
 
-LibraryTests.o: LibraryTests.cpp.o
-.PHONY : LibraryTests.o
+main.o: main.cpp.o
+.PHONY : main.o
 
 # target to build an object file
-LibraryTests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/LibraryTests.cpp.o
-.PHONY : LibraryTests.cpp.o
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-LibraryTests.i: LibraryTests.cpp.i
-.PHONY : LibraryTests.i
+main.i: main.cpp.i
+.PHONY : main.i
 
 # target to preprocess a source file
-LibraryTests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/LibraryTests.cpp.i
-.PHONY : LibraryTests.cpp.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-LibraryTests.s: LibraryTests.cpp.s
-.PHONY : LibraryTests.s
+main.s: main.cpp.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-LibraryTests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/LibraryTests.cpp.s
-.PHONY : LibraryTests.cpp.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -185,13 +185,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... run_tests"
+	@echo "... main_program"
 	@echo "... Library.o"
 	@echo "... Library.i"
 	@echo "... Library.s"
-	@echo "... LibraryTests.o"
-	@echo "... LibraryTests.i"
-	@echo "... LibraryTests.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 

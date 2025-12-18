@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = /home/Rvi/6ogdashka_BSU/LAB11/PART2/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/run_tests.dir/all
+all: CMakeFiles/main_program.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/run_tests.dir/codegen
+codegen: CMakeFiles/main_program.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,40 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/run_tests.dir/clean
+clean: CMakeFiles/main_program.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/run_tests.dir
+# Target rules for target CMakeFiles/main_program.dir
 
 # All Build rule for target.
-CMakeFiles/run_tests.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles --progress-num=1,2,3 "Built target run_tests"
-.PHONY : CMakeFiles/run_tests.dir/all
+CMakeFiles/main_program.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles --progress-num=1,2,3 "Built target main_program"
+.PHONY : CMakeFiles/main_program.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/run_tests.dir/rule: cmake_check_build_system
+CMakeFiles/main_program.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main_program.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles 0
-.PHONY : CMakeFiles/run_tests.dir/rule
+.PHONY : CMakeFiles/main_program.dir/rule
 
 # Convenience name for target.
-run_tests: CMakeFiles/run_tests.dir/rule
-.PHONY : run_tests
+main_program: CMakeFiles/main_program.dir/rule
+.PHONY : main_program
 
 # codegen rule for target.
-CMakeFiles/run_tests.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target run_tests"
-.PHONY : CMakeFiles/run_tests.dir/codegen
+CMakeFiles/main_program.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target main_program"
+.PHONY : CMakeFiles/main_program.dir/codegen
 
 # clean rule for target.
-CMakeFiles/run_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/clean
-.PHONY : CMakeFiles/run_tests.dir/clean
+CMakeFiles/main_program.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_program.dir/build.make CMakeFiles/main_program.dir/clean
+.PHONY : CMakeFiles/main_program.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

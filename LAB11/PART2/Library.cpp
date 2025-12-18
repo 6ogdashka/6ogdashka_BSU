@@ -114,7 +114,6 @@ size_t Library::GetBookCount() const {
 }
 
 size_t Library::GetUniqueBookCount() const {
-    size_t uniqueCount = 0;
     std::set<Book> uniqueBooks;
     
     for (const auto& book : Books_) {

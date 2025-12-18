@@ -1,7 +1,5 @@
-CMakeFiles/run_tests.dir/LibraryTests.cpp.o: \
- /home/Rvi/6ogdashka_BSU/LAB11/PART2/LibraryTests.cpp \
- /usr/include/stdc-predef.h \
- /home/Rvi/6ogdashka_BSU/LAB11/PART2/LibraryTests.h \
+CMakeFiles/main_program.dir/main.cpp.o: \
+ /home/Rvi/6ogdashka_BSU/LAB11/PART2/main.cpp /usr/include/stdc-predef.h \
  /home/Rvi/6ogdashka_BSU/LAB11/PART2/Library.h \
  /usr/include/c++/15.2.1/algorithm \
  /usr/include/c++/15.2.1/bits/stl_algobase.h \
@@ -172,8 +170,4 @@ CMakeFiles/run_tests.dir/LibraryTests.cpp.o: \
  /usr/include/c++/15.2.1/bits/fstream.tcc /usr/include/c++/15.2.1/sstream \
  /usr/include/c++/15.2.1/bits/sstream.tcc \
  /home/Rvi/6ogdashka_BSU/LAB11/PART2/Book.h \
- /usr/include/c++/15.2.1/iostream /usr/include/c++/15.2.1/vector \
- /usr/include/c++/15.2.1/bits/stl_uninitialized.h \
- /usr/include/c++/15.2.1/bits/stl_vector.h \
- /usr/include/c++/15.2.1/bits/stl_bvector.h \
- /usr/include/c++/15.2.1/bits/vector.tcc
+ /usr/include/c++/15.2.1/iostream

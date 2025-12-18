@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/run_tests.dir/link.d CMakeFiles/run_tests.dir/LibraryTests.cpp.o CMakeFiles/run_tests.dir/Library.cpp.o -o run_tests

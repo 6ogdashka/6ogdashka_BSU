@@ -1,4 +1,4 @@
-CMakeFiles/run_tests.dir/Library.cpp.o: \
+CMakeFiles/main_program.dir/Library.cpp.o: \
  /home/Rvi/6ogdashka_BSU/LAB11/PART2/Library.cpp \
  /usr/include/stdc-predef.h /home/Rvi/6ogdashka_BSU/LAB11/PART2/Library.h \
  /usr/include/c++/15.2.1/algorithm \

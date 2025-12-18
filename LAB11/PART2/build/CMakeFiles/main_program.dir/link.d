@@ -1,9 +1,9 @@
-run_tests: \
+main_program: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o \
-  CMakeFiles/run_tests.dir/LibraryTests.cpp.o \
-  CMakeFiles/run_tests.dir/Library.cpp.o \
+  CMakeFiles/main_program.dir/Library.cpp.o \
+  CMakeFiles/main_program.dir/main.cpp.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -38,9 +38,9 @@ run_tests: \
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
 
-CMakeFiles/run_tests.dir/LibraryTests.cpp.o:
+CMakeFiles/main_program.dir/Library.cpp.o:
 
-CMakeFiles/run_tests.dir/Library.cpp.o:
+CMakeFiles/main_program.dir/main.cpp.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so:
 

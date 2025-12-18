@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/Rvi/6ogdashka_BSU/LAB11/PART2
 
 CXX_FLAGS = -std=c++17 -Wall -Wextra -Wpedantic -g
 

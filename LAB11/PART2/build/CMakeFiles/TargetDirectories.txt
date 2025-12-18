@@ -1,3 +1,3 @@
-/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles/run_tests.dir
+/home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles/main_program.dir
 /home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles/edit_cache.dir
 /home/Rvi/6ogdashka_BSU/LAB11/PART2/build/CMakeFiles/rebuild_cache.dir
