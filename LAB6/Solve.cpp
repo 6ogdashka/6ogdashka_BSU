@@ -1,4 +1,4 @@
-#include "Simple_Matrix.cpp"
+#include "Simple_Matrix.h"
 #include "russian.h"
 
 template<typename T>
