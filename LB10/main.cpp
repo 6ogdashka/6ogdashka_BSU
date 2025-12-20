@@ -1,4 +1,4 @@
-#include "fraction.cpp"
+#include "fraction.h"
 #include <cmath>
 #include <iostream>
 #include <vector>

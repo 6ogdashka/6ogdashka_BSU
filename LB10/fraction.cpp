@@ -254,18 +254,6 @@ Fraction& Fraction::operator*=(const double a) noexcept {
     return (*this);
 }
 
-bool Fraction::operator<(const Fraction& a) const noexcept {
-    return (((*this) - a) < 0);
-}
-
-bool Fraction::operator<(const double a) const noexcept {
-    return (((*this) - a) < 0 );
-}
-
-bool operator<(const double a, const Fraction& b) noexcept {
-    return ( (a-b) < 0);
-}
-
 bool Fraction::operator>(const Fraction& a) const noexcept {
     Fraction temp = ((*this) - a);
     if (temp.numerator_ > 0) {
@@ -291,6 +279,18 @@ bool operator>(const double a, const Fraction& b) noexcept {
     } else {
         return false;
     }
+}
+
+bool Fraction::operator<(const Fraction& a) const noexcept { 
+    return ( 0 > ((*this) - a));
+}
+
+bool Fraction::operator<(const double a) const noexcept {
+    return ( 0 > ((*this) - a) );
+}
+
+bool operator<(const double a, const Fraction& b) noexcept {
+    return (0 > (a-b));
 }
 
 std::istream& operator>>( std::istream& in,  Fraction& a) noexcept {
