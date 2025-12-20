@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <clocale>
 #include <vector>
 #include <algorithm>
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include "russian.h"
 
 namespace  {
 
@@ -34,14 +34,6 @@ void ValidateStudent(const Student& student) {
     }
 }
 
-std::string str_toupper(std::string s)
-{
-    std::transform(s.begin(), s.end(), s.begin(),
-                   [](unsigned char c){ return std::toupper(c); }
-                  );
-    return s;
-}
-
 Student ParseStudentLine(const std::string& line) {
     std::istringstream iss(line);
     Student student;
@@ -57,11 +49,6 @@ Student ParseStudentLine(const std::string& line) {
     if (!(iss >> student.group)) {
         throw std::invalid_argument("Не удалось считать номер группы");
     }
-    setlocale(LC_ALL, "Russian");
-    std::string result = student.name;
-    result = str_toupper(result);
-    student.name = result;
-    std::wcout << L"student.name" << '\n';
     ValidateStudent(student);
     return student;
 }
@@ -76,7 +63,7 @@ std::vector<Student> ReadStudentsFromFile(const std::string& filename) {
     
     std::vector<Student> students;
     std::string line;
-    int line_number = 0;
+
     
     while ( std::getline(file,line)) {
         Student current_student = ParseStudentLine(line);
