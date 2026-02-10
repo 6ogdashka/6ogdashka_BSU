@@ -1,0 +1,60 @@
+#include <iostream>
+#include "russian.h"
+int get_day_value ();
+int get_month_value();
+int get_year_value();
+
+int main() {
+    try {
+    setRussianLocale();
+    std::cout << "Введите дату рождения (день месяц год): ";
+    int birth_day = get_day_value(), 
+        birth_month = get_month_value(), 
+        birth_year = get_year_value();
+    std::cout << "Введите текущую дату (день месяц год): ";
+    int current_day = get_day_value(), 
+        current_month = get_month_value(), 
+        current_year = get_year_value();
+    const int total_months_in_year = 12;
+    const int total_days_in_month = 30;
+
+    int birth_total_days = (birth_year * total_months_in_year + birth_month) * total_days_in_month + birth_day;
+    int current_total_days = (current_year * total_months_in_year + current_month) * total_days_in_month + current_day;
+
+    int age_total_days = current_total_days - birth_total_days;
+
+    int age_years = age_total_days / (total_months_in_year * total_days_in_month);
+    int age_months = (age_total_days % (total_months_in_year * total_days_in_month)) / total_days_in_month;
+    int age_days = age_total_days % total_days_in_month;
+
+    std::cout << "Возраст: " << age_years << " лет, " << age_months << " месяцев, " << age_days << " дней\n";
+    } catch ( const char* msg) { std::cout << msg; }
+    return 0;
+}
+
+int get_day_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1) && ( value <= 30)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
+}
+
+int get_month_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1) && ( value <= 12)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
+}
+
+int get_year_value () {
+    int value;
+    if (( std::cin >> value ) && ( value >= 1)) {
+        return value;
+    } else {
+        throw " Такого дня не существует! ";
+    }
+}
