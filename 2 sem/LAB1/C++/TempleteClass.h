@@ -1,3 +1,6 @@
+#ifndef TEMPLATECLASS_H
+#define TEMPLATECLASS_H
+
 #include <vector>
 #include <algorithm>
 
@@ -5,7 +8,9 @@ template<typename T>
 class DynamicArray {
 
     private:
+
         std::vector<T> data_;
+
     public:
 
         DynamicArray() = default;
@@ -29,7 +34,7 @@ class DynamicArrayFactory {
 
     public:
     template< typename T>
-    DynamicArray<T> create(const std::vector<T>& vec) {
+    DynamicArray<T> createArray(const std::vector<T>& vec) {
         std::vector<T> result;
         for (size_t i = 0; i < vec.size(); ++i)
             result.push_back(vec[i] + static_cast<T>(i + 1));
@@ -37,3 +42,5 @@ class DynamicArrayFactory {
         return arr;
     }
 };
+
+#endif
