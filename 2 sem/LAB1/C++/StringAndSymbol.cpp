@@ -34,7 +34,7 @@ void Task2() {
     std::stringstream stream(str);
     std::string current_number;
     while ( stream >> current_number) {
-        std::cout << current_number << "\n\n";
+        std::cout << current_number << "\n";
     } 
 }
 

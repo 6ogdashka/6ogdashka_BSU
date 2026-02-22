@@ -59,7 +59,7 @@ int main() {
         : [Y_asm] "=m" (Y_asm)
         : [x] "m" (x),
           [minus7] "m" (minus7)
-        : "ax", "st"
+        : "ax", "st", "cc"
 
     );
 

@@ -1,10 +1,9 @@
-#include <iostream>
-#include "V6.h"
+#include "XClass.h"
 
-int main() {
+int main () {
 
-    Inherited Point(3,4,5);
-    std::cout << Point.Run() << "\n";
-    Point.Show();
-    
+    X* Point = new Y(3,4,5);
+    int a = Point->run();
+    std::cout << a;
+
 }
