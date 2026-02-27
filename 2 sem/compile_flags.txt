@@ -1,0 +1,5 @@
+-masm=intel
+-fasm
+-Xclang
+-fcolor-diagnostics
+-Wno-invalid-token-ascii

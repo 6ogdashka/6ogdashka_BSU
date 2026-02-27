@@ -17,7 +17,7 @@ int main() {
         Y_cpp = std::sqrt(49 - x*x);
     }
 
-    asm (
+    __asm__ (
         "finit\n"
         "fld QWORD PTR %[x]\n"
         "fld QWORD PTR %[minus7]\n"

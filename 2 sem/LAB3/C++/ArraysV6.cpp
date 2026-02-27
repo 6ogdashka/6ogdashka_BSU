@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 int main() {
 
     int* A = new int[5];
