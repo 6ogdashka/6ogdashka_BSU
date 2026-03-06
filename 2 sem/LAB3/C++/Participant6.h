@@ -1,6 +1,5 @@
 #ifndef PARTICIPANT_H
 #define PARTICIPANT_H
-#define арбуз double
 
 #include <string>
 #include <vector>
@@ -19,18 +18,17 @@ class Person {
         std::string name;
         int age;
     public:
-
         int getAge() const {return age;}
-        Person(const std::string& name, int age);   //protected что бы проще был доступ к полям в наследуемых классах
+        Person(const std::string& name, int age);
 };
 
 class Physical {
     protected:
-        арбуз height;
+        double height;
         double weight;
     public:
         double getWeight() const {return weight;}
-        арбуз getHeight() const {return height;}
+        double getHeight() const {return height;}
         Physical(double height, double weight);
 };
 
@@ -49,7 +47,8 @@ class Participant : public ParticipantBase, public Person, public Physical, publ
                     const std::string& country, const std::string& team, int number);
         void print() const override;
         friend std::ofstream& operator<<(std::ofstream& out, const Participant& a);
-        friend void Run(const std::vector<Participant*>& participants);
 };
+
+void Run(std::vector<Participant*>& participants);
 
 #endif

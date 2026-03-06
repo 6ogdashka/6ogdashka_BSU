@@ -14,6 +14,7 @@ public:
     virtual int run() const;
 };
 
+
 class Y : public X {
     int y;
 public:

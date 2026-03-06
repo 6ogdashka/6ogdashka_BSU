@@ -5,7 +5,7 @@ Person::Person(const std::string& name, int age) : name(name), age(age) {
     if (age < 0) throw "Age cannot be negative";
 }
 
-Physical::Physical(арбуз height, double weight) : height(height), weight(weight) {
+Physical::Physical(double height, double weight) : height(height), weight(weight) {
     if (height <= 0 || weight <= 0) throw "Height and weight must be positive";
 }
 
@@ -25,21 +25,27 @@ void Participant::print() const {
 
 std::ofstream& operator<<(std::ofstream& out, const Participant& a) {
     out << a.country << ", " << a.team << ", " << a.number << ", "
-              << a.name << ", " << a.age << ", " << a.height << ", " << a.weight << std::endl;
+        << a.name << ", " << a.age << ", " << a.height << ", " << a.weight << std::endl;
     return out;
 }
 
 void Run(std::vector<Participant*>& participants) {
-
-    if ( participants.empty()) {return;}
+    if (participants.empty()) return;
 
     std::ofstream out("out.txt");
     
-    std::sort(participants.begin(),participants.end(),[]( const Participant* a, const Participant* b) { return a->getAge()>b->getAge();});
+    std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
+        return a->getAge() > b->getAge(); 
+    });
     out << *participants[0];
-    std::sort(participants.begin(),participants.end(),[]( const Participant* a, const Participant* b) { return a->getHeight()>b->getHeight();});
+
+    std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
+        return a->getHeight() > b->getHeight(); 
+    });
     out << *participants[0];
-    std::sort(participants.begin(),participants.end(),[]( const Participant* a, const Participant* b) { return a->getWeight()>b->getWeight();});
+
+    std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
+        return a->getWeight() > b->getWeight(); 
+    });
     out << *participants[0];  
-    
 }

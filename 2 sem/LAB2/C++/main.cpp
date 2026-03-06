@@ -1,4 +1,5 @@
 #include "XClass.h"
+#include <iostream>
 
 int main () {
 
