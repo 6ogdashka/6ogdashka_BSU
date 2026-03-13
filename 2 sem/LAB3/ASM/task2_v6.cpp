@@ -25,7 +25,7 @@ int main() {
         "jge loop_end\n"
 
         "mov r8d, [rbx + rcx*4]\n"    // Сравнение
-        "mov r9d, [rbx + rcx*4 + 4]\n"
+        "mov r9d, [rbx + rcx*4 + 4]\n" // А это чтото типо взять следуйший ( переместиться на 4 байта )
         "cmp r8d, r9d\n"
         "jne next_step\n"
 
@@ -34,7 +34,7 @@ int main() {
         "mov rdi, rsi\n"
         "inc rsi\n"
 
-        "shift_loop: \n"              // основной цикл Цикл 
+        "shift_loop: \n"              // основной цикл 
         "mov eax, [rdx]\n"
         "cdqe\n"
         "cmp rdi, rax\n"
