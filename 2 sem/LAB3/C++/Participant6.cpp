@@ -35,17 +35,20 @@ void Run(std::vector<Participant*>& participants) {
     std::ofstream out("out.txt");
     
     std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
-        return a->getAge() > b->getAge(); 
+        return a->getAge() < b->getAge(); 
     });
+    out << "Самый моллдой: ";
     out << *participants[0];
 
     std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
         return a->getHeight() > b->getHeight(); 
     });
+    out << "Самый высокий: ";
     out << *participants[0];
 
     std::sort(participants.begin(), participants.end(), [](const Participant* a, const Participant* b) { 
-        return a->getWeight() > b->getWeight(); 
+        return a->getWeight() < b->getWeight(); 
     });
+    out << "Самый тяжёлый: ";
     out << *participants[0];  
 }
