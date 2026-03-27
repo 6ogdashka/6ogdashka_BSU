@@ -2,19 +2,19 @@
 #define DLIST
 #include <iostream>
 
-struct Node {
+struct DNode {
     int data;
-    Node* next;
-    Node* prev;
+    DNode* next;
+    DNode* prev;
 
-    Node(int value) : data(value), next(nullptr), prev(nullptr) {}
+    DNode(int value) : data(value), next(nullptr), prev(nullptr) {}
 };
 
 class DoubleList {
 private:
 
-    Node* head;
-    Node* tail;
+    DNode* head;
+    DNode* tail;
 
 public:
     DoubleList() : head(nullptr), tail(nullptr) {}
@@ -23,16 +23,16 @@ public:
     DoubleList& operator=(const DoubleList&) = delete;
 
     ~DoubleList() {
-        Node* current = head;
+        DNode* current = head;
         while (current != nullptr) {
-            Node* next = current->next;
+            DNode* next = current->next;
             delete current;
             current = next;
         }
     }
 
     void push_back(int value) {
-        Node* newNode = new Node(value);
+        DNode* newNode = new DNode(value);
         if (tail == nullptr) {
             head = tail = newNode;
         } else {
@@ -42,8 +42,35 @@ public:
         }
     }
 
+    void Delete() {
+        int index = 0;
+        DNode* current = head;
+        while (current != nullptr) {
+            if (index % 2 == 0) {
+                DNode* toDelete = current;
+                DNode* nextNode = current->next;
+                if (toDelete->prev) {
+                    toDelete->prev->next = nextNode;
+                } else {
+                    head = nextNode;
+                }
+                if (nextNode) {
+                    nextNode->prev = toDelete->prev;
+                } else {
+                    tail = toDelete->prev;
+                }
+                delete toDelete;
+                current = nextNode;
+                index++;
+            } else {
+                current = current->next;
+                index++;
+            }
+        }
+    }
+
     void print() const {
-        Node* current = head;
+        DNode* current = head;
         while (current != nullptr) {
             std::cout << current->data;
             if (current->next != nullptr) std::cout << " ";

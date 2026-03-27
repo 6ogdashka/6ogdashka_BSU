@@ -13,69 +13,65 @@ int main() {
 
     __asm__ volatile (
         ".intel_syntax noprefix\n"
-        "mov rbx, %[arr]\n"         //я могу указатель только в 64битный регистр засунуть
-        "mov rdx, %[len_ptr]\n"    //поэтому пришлось писать так
-        "xor rcx, rcx\n"
+        "mov    rbx, %[arr]\n"
+        "mov    rdx, %[len_ptr]\n"
+        "xor    rcx, rcx\n"
 
-        "loop_start:\n"
-        "mov eax, [rdx]\n"
-        "cdqe\n"
-        "cmp rcx, rax\n"
-        "jge loop_end\n"  // это проверка на конец массива
+        "main_loop:\n"
+        "mov    eax, [rdx]\n"
+        "cmp    rcx, rax\n"
+        "jge    main_loop_end\n"
 
-        "mov eax, [rbx + rcx*4]\n"  //это взять iты элементов интов
-        "test eax, 1\n"
-        "jnz next_step\n"
+        "mov    eax, [rbx + rcx*4]\n"
+        "test   eax, 1\n"
+        "jnz    next_i\n"
 
-        "mov r12d, eax\n"
-        "xor edi, edi\n" 
-        "mov r10d, 10\n"
+        "mov    r8d, eax\n"
+        "xor    r9d, r9d\n"
+        "mov    r10d, 10\n"
 
-        "rev_loop:\n"
-        "test r12d, r12d\n"  // это типо пока не 0
-        "jz rev_done\n"
-        "xor edx, edx\n"
-        "mov eax, r12d\n"
-        "div r10d\n"  //это мы берем остаток по делению 10
-        "mov r12d, eax\n"
-        "imul edi, 10\n"  //а так мы этот остаток берем и формируем перевернутое число
-        "add edi, edx\n"
-        "jmp rev_loop\n"
+        "reverse_loop:\n"
+        "test   r8d, r8d\n"
+        "jz     reverse_done\n"
+        "xor    edx, edx\n"
+        "mov    eax, r8d\n"
+        "div    r10d\n"
+        "mov    r8d, eax\n"
+        "imul   r9d, 10\n"
+        "add    r9d, edx\n"
+        "jmp    reverse_loop\n"
 
-        "rev_done:\n"
-        "mov rdx, %[len_ptr]\n"
-        "mov eax, [rdx]\n" 
-        "cdqe\n"
-        "mov rsi, rax\n"
-        "dec rsi\n"
+        "reverse_done:\n"
+        "mov    r11d, [rdx]\n"
+        "mov    r12, r11\n"
+        "mov    r13, r11\n"
+        "dec    r13\n"
+        "mov    r14, rcx\n"
+        "inc    r14\n"
 
-        "shift_loop:\n"   //тут грубо говоря я впихиваю число
-        "cmp rax, rcx\n"
-        "jle shift_done\n"
-        "mov r12d, [rbx + rsi*4]\n"
-        "mov [rbx + rax*4], r12d\n"
-        "dec rax\n"
-        "dec rsi\n"
-        "jmp shift_loop\n"
+        "shift_loop:\n"
+        "cmp    r13, r14\n"
+        "jl     shift_done\n"
+        "mov    r15d, [rbx + r13*4]\n"
+        "mov    [rbx + r13*4 + 4], r15d\n"
+        "dec    r13\n"
+        "jmp    shift_loop\n"
 
         "shift_done:\n"
-        "mov [rbx + rcx*4 + 4], edi\n"
-        "inc dword ptr [rdx]\n"
-        "inc rcx\n"   // ну и переход на следуйшее i
+        "mov    [rbx + r14*4], r9d\n"
+        "inc    dword ptr [rdx]\n"
+        "add    rcx, 2\n"
+        "jmp    main_loop\n"
 
-        "next_step:\n"
-        "inc rcx\n"
-        "mov rdx, %[len_ptr]\n"
-        "jmp loop_start\n"  //и по новой
+        "next_i:\n"
+        "inc    rcx\n"
+        "jmp    main_loop\n"
 
-        "loop_end:\n"
+        "main_loop_end:\n"
         ".att_syntax prefix\n"
         :
-        : [arr] "r" (arr),
-          [len_ptr] "r" (&len)
-        : "rax", "rbx", "rcx",
-          "rdx", "rsi", "rdi",
-          "r10", "r12", "memory"
+        : [arr] "r" (arr), [len_ptr] "r" (&len)
+        : "rax", "rbx", "rcx", "rdx", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "memory"
     );
 
     for (int i = 0; i < len; ++i) {

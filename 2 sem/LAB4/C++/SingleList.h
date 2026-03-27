@@ -3,24 +3,24 @@
 #include <iostream>
 #include <cstring>
 
-struct Node {
-    char* data;
-    Node* next;
+struct SNode {
+    char* data_type;
+    SNode* next;
 
-    Node(const char* str) {
-        data = new char[std::strlen(str) + 1];
-        std::strcpy(data, str);
+    SNode(const char* str) {
+        data_type = new char[std::strlen(str) + 1];
+        std::strcpy(data_type, str);
         next = nullptr;
     }
 
-    ~Node() {
-        delete[] data;
+    ~SNode() {
+        delete[] data_type;
     }
 };
 
 class List {
 private:
-    Node* head;
+    SNode* head;
 
 public:
     List() : head(nullptr) {}
@@ -29,31 +29,58 @@ public:
     List& operator=(const List&) = delete;
 
     ~List() {
-        Node* current = head;
+        SNode* current = head;
         while (current != nullptr) {
-            Node* next = current->next;
+            SNode* next = current->next;
             delete current;
             current = next;
         }
     }
 
-    void push_back(const char* str) {
-        Node* newNode = new Node(str);
+    void push_back(const char* str, int index = -1) {
+        SNode* newNode = new SNode(str);
+
+        if (index < 0) {
+            if (head == nullptr) {
+                head = newNode;
+            } else {
+                SNode* current = head;
+                while (current->next != nullptr) {
+                    current = current->next;
+                }
+                current->next = newNode;
+            }
+            return;
+        }
+
         if (head == nullptr) {
             head = newNode;
-        } else {
-            Node* current = head;
+            return;
+        }
+
+        SNode* current = head;
+        int i = 0;
+        while (i < index && current != nullptr) {
+            current = current->next;
+            i++;
+        }
+
+        if (current == nullptr) {
+            current = head;
             while (current->next != nullptr) {
                 current = current->next;
             }
+            current->next = newNode;
+        } else {
+            newNode->next = current->next;
             current->next = newNode;
         }
     }
 
     void print() const {
-        Node* current = head;
+        SNode* current = head;
         while (current != nullptr) {
-            std::cout << current->data;
+            std::cout << current->data_type;
             if (current->next != nullptr) std::cout << " ";
             current = current->next;
         }

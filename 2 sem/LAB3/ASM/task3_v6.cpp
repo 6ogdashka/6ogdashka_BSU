@@ -9,55 +9,54 @@ int main() {
 
     __asm__ volatile (
         ".intel_syntax noprefix\n"
-        "xor r8, r8\n"              // Инициализация указателей i, j, k нулями
-        "xor r9, r9\n"
-        "xor r10, r10\n"
+        "xor    r8d, r8d\n"
+        "xor    r9d, r9d\n"
+        "xor    r10d, r10d\n"
 
-        "find_loop:\n"              // Проверка выхода за границы всех трех массивов
-        "mov eax, %[n]\n"
-        "cmp r8d, eax\n"
-        "jge not_found\n"
-        "mov eax, %[m]\n"
-        "cmp r9d, eax\n"
-        "jge not_found\n"
-        "mov eax, %[d]\n"
-        "cmp r10d, eax\n"
-        "jge not_found\n"
+        "find_loop:\n"
+        "mov    eax, %[n]\n"
+        "cmp    r8d, eax\n"
+        "jge    not_found\n"
+        "mov    eax, %[m]\n"
+        "cmp    r9d, eax\n"
+        "jge    not_found\n"
+        "mov    eax, %[d]\n"
+        "cmp    r10d, eax\n"
+        "jge    not_found\n"
 
-        "mov eax, [%[x_ptr] + r8*4]\n" // Загрузка текущих значений из X, Y и Z
-        "mov ebx, [%[y_ptr] + r9*4]\n"
-        "mov ecx, [%[z_ptr] + r10*4]\n"
+        "mov    eax, [%[x_ptr] + r8*4]\n"
+        "mov    ebx, [%[y_ptr] + r9*4]\n"
+        "mov    ecx, [%[z_ptr] + r10*4]\n"
 
-        "cmp eax, ebx\n"            // Сравнение X[i] и Y[j] для выбора указателя
-        "jl inc_i\n"
-        "jg inc_j\n"
+        "cmp    eax, ebx\n"
+        "jl     inc_i\n"
+        "jg     inc_j\n"
 
-        "cmp eax, ecx\n"            // Сравнение X[i] с Z[k] при равенстве первых двух
-        "jl inc_k\n"
-        "jg inc_k\n"
+        "cmp    eax, ecx\n"
+        "jl     inc_k\n"
+        "jg     inc_k\n"
 
-        "mov %[res], eax\n"         // Сохранение результата, если X[i] == Y[j] == Z[k]
-        "jmp loop_end\n"
+        "mov    %[res], eax\n"
+        "jmp    loop_end\n"
 
-        "inc_i:\n"                  // Инкремент указателя первого массива
-        "inc r8\n"
-        "jmp find_loop\n"
+        "inc_i:\n"
+        "inc    r8d\n"
+        "jmp    find_loop\n"
 
-        "inc_j:\n"                  // Инкремент указателя второго массива
-        "inc r9\n"
-        "jmp find_loop\n"
+        "inc_j:\n"
+        "inc    r9d\n"
+        "jmp    find_loop\n"
 
-        "inc_k:\n"                  // Инкремент указателя третьего массива
-        "inc r10\n"
-        "jmp find_loop\n"
+        "inc_k:\n"
+        "inc    r10d\n"
+        "jmp    find_loop\n"
 
-        "not_found:\n"              // Установка -1, если совпадений не найдено
-        "mov dword ptr [%[res]], -1\n"
+        "not_found:\n"
 
-        "loop_end:\n"               // Завершение вставки и возврат к синтаксису AT&T
+        "loop_end:\n"
         ".att_syntax prefix\n"
         : [res] "=r" (result)
-        : [x_ptr] "r" (x), [y_ptr] "r" (y), [z_ptr] "r" (z), 
+        : [x_ptr] "r" (x), [y_ptr] "r" (y), [z_ptr] "r" (z),
           [n] "r" (n), [m] "r" (m), [d] "r" (d)
         : "rax", "rbx", "rcx", "r8", "r9", "r10", "memory"
     );
