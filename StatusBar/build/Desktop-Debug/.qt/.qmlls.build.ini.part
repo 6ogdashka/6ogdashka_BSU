@@ -1,0 +1,3 @@
+[<SLASH>home<SLASH>Rvi<SLASH>StatusBar]
+importPaths="/home/Rvi/StatusBar/build/Desktop-Debug:/home/Rvi/StatusBar/build/Desktop-Debug/StatusBar:/usr/lib/qt6/qml"
+resourceFiles="/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/qmake_StatusBar.qrc:/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/appStatusBar_raw_qml_0.qrc"

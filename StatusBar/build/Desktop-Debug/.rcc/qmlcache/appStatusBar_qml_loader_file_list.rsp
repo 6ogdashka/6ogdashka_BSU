@@ -1,0 +1,5 @@
+--resource
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/qmake_StatusBar.qrc
+--resource
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/appStatusBar_raw_qml_0.qrc
+/qt/qml/StatusBar/Main.qml

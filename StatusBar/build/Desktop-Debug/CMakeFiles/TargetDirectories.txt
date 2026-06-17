@@ -1,0 +1,5 @@
+/home/Rvi/StatusBar/build/Desktop-Debug/CMakeFiles/StatusBarExample.dir
+/home/Rvi/StatusBar/build/Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/Rvi/StatusBar/build/Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/Rvi/StatusBar/build/Desktop-Debug/CMakeFiles/StatusBarExample_autogen_timestamp_deps.dir
+/home/Rvi/StatusBar/build/Desktop-Debug/CMakeFiles/StatusBarExample_autogen.dir

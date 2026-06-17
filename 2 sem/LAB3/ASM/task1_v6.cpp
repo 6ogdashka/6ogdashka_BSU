@@ -26,6 +26,8 @@ int main() {
         "test   eax, 1\n"
         "jnz    next_i\n"
 
+        "mov    r12, rdx\n"
+
         "mov    r8d, eax\n"
         "xor    r9d, r9d\n"
         "mov    r10d, 10\n"
@@ -42,29 +44,30 @@ int main() {
         "jmp    reverse_loop\n"
 
         "reverse_done:\n"
+        "mov    rdx, r12\n"
+
         "mov    r11d, [rdx]\n"
-        "mov    r12, r11\n"
-        "mov    r13, r11\n"
-        "dec    r13\n"
-        "mov    r14, rcx\n"
-        "inc    r14\n"
+        "mov    r13d, r11d\n"
+        "dec    r13d\n"
+        "mov    r14d, ecx\n"
+        "inc    r14d\n"
 
         "shift_loop:\n"
-        "cmp    r13, r14\n"
+        "cmp    r13d, r14d\n"
         "jl     shift_done\n"
         "mov    r15d, [rbx + r13*4]\n"
         "mov    [rbx + r13*4 + 4], r15d\n"
-        "dec    r13\n"
+        "dec    r13d\n"
         "jmp    shift_loop\n"
 
         "shift_done:\n"
         "mov    [rbx + r14*4], r9d\n"
         "inc    dword ptr [rdx]\n"
-        "add    rcx, 2\n"
+        "add    ecx, 2\n"
         "jmp    main_loop\n"
 
         "next_i:\n"
-        "inc    rcx\n"
+        "inc    ecx\n"
         "jmp    main_loop\n"
 
         "main_loop_end:\n"

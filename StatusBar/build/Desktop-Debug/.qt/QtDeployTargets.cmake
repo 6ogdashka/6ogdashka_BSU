@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_StatusBarExample_FILE /home/Rvi/StatusBar/build/Desktop-Debug/StatusBarExample)
+set(__QT_DEPLOY_TARGET_StatusBarExample_TYPE EXECUTABLE)

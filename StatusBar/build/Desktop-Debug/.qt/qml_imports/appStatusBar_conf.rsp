@@ -1,0 +1,14 @@
+-rootPath
+/home/Rvi/StatusBar
+-cmake-output
+-output-file
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/qml_imports/appStatusBar_conf.cmake
+-importPath
+/home/Rvi/StatusBar/build/Desktop-Debug
+-importPath
+/home/Rvi/StatusBar/build/Desktop-Debug/StatusBar
+-importPath
+/usr/lib/qt6/qml
+-qrcFiles
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/qmake_StatusBar.qrc
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/appStatusBar_raw_qml_0.qrc

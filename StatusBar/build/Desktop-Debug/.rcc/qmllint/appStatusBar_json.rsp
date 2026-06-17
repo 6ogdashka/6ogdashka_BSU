@@ -1,0 +1,16 @@
+--bare
+-I
+/home/Rvi/StatusBar/build/Desktop-Debug
+-I
+/home/Rvi/StatusBar/build/Desktop-Debug/StatusBar
+-I
+/home/Rvi/StatusBar/build/Desktop-Debug
+-I
+/usr/lib/qt6/qml
+--resource
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/qmake_StatusBar.qrc
+--resource
+/home/Rvi/StatusBar/build/Desktop-Debug/.qt/rcc/appStatusBar_raw_qml_0.qrc
+/home/Rvi/StatusBar/Main.qml
+--json
+/home/Rvi/StatusBar/build/Desktop-Debug/appStatusBar_qmllint.json

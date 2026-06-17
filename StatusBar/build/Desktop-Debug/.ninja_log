@@ -1,0 +1,15 @@
+# ninja log v7
+5	217	1779720496763961669	build.ninja	5898edd13506631
+5	217	1779720496761491309	/home/Rvi/StatusBar/build/Desktop-Debug/cmake_install.cmake	5898edd13506631
+1	266	1779720461403528798	StatusBarExample_autogen/timestamp	6bd9816d3d417b1f
+1	266	1779720461403528798	StatusBarExample_autogen/mocs_compilation.cpp	6bd9816d3d417b1f
+1	266	1779720461403528798	/home/Rvi/StatusBar/build/Desktop-Debug/StatusBarExample_autogen/timestamp	6bd9816d3d417b1f
+1	266	1779720461403528798	/home/Rvi/StatusBar/build/Desktop-Debug/StatusBarExample_autogen/mocs_compilation.cpp	6bd9816d3d417b1f
+267	2736	1779720461414528788	CMakeFiles/StatusBarExample.dir/StatusBarExample_autogen/mocs_compilation.cpp.o	4782aff003d4fc32
+267	2760	1779720461415242823	CMakeFiles/StatusBarExample.dir/mainwindow.cpp.o	b022a86c716b170
+267	2828	1779720461415049129	CMakeFiles/StatusBarExample.dir/main.cpp.o	46eea436c1af40fa
+2828	3232	1779720463975526308	StatusBarExample	51c91049b987a482
+4	52	1779720501310486001	StatusBarExample_autogen/timestamp	6bd9816d3d417b1f
+4	52	1779720501310486001	StatusBarExample_autogen/mocs_compilation.cpp	6bd9816d3d417b1f
+4	52	1779720501310486001	/home/Rvi/StatusBar/build/Desktop-Debug/StatusBarExample_autogen/timestamp	6bd9816d3d417b1f
+4	52	1779720501310486001	/home/Rvi/StatusBar/build/Desktop-Debug/StatusBarExample_autogen/mocs_compilation.cpp	6bd9816d3d417b1f

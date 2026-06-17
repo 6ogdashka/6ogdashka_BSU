@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/StatusBar">/home/Rvi/StatusBar/build/Desktop-Debug/StatusBar</file>
+
+  </qresource>
+</RCC>
