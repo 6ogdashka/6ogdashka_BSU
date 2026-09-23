@@ -1,2 +1,0 @@
-Nokia;Phones;7500
-Apple;SmartPhones;150000

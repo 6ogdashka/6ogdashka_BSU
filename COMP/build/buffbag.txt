@@ -1,2 +1,0 @@
-Samsung Age;7;SmartPhones
-Nokia;10;Phones
