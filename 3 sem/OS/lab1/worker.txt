@@ -1,0 +1,9 @@
+101 Ivan 40.5
+102 Anna 35.0
+103 Petr 42.0
+104 Olga 28.5
+105 Pavel 50.0
+106 Maria 38.5
+107 Alex 45.0
+108 Svetlana 32
+109 Ilya 48.0

@@ -20,12 +20,11 @@ void RunProcess(const std::string& program, const std::vector<std::string>& args
     pid_t pid = fork();
     if (pid == 0) {
         execv(program.c_str(), argv.data());
-        perror("execv");
+        perror("процесс почему-то не запустился");
         _exit(1);
     }
 
-    int status = 0;
-    waitpid(pid, &status, 0);
+    waitpid(pid, nullptr, 0);
 }
 
 void PrintBinaryFile(const std::string& BinFileName) {
