@@ -1,103 +1,84 @@
+#include <unordered_map>
 #include <string>
 #include <algorithm>
 #include <fstream>
 #include <vector>
 
-struct letter_to_digit {
-    char glossary[256];
-    letter_to_digit() {
-        for (int i = 0; i < 256; ++i) glossary[i] = 0;
-        glossary['I'] = '1'; glossary['J'] = '1';
-        glossary['A'] = '2'; glossary['B'] = '2'; glossary['C'] = '2';
-        glossary['D'] = '3'; glossary['E'] = '3'; glossary['F'] = '3';
-        glossary['G'] = '4'; glossary['H'] = '4';
-        glossary['K'] = '5'; glossary['L'] = '5';
-        glossary['M'] = '6'; glossary['N'] = '6';
-        glossary['P'] = '7'; glossary['R'] = '7'; glossary['S'] = '7';
-        glossary['T'] = '8'; glossary['U'] = '8'; glossary['V'] = '8';
-        glossary['W'] = '9'; glossary['X'] = '9'; glossary['Y'] = '9';
-        glossary['O'] = '0'; glossary['Q'] = '0'; glossary['Z'] = '0';
-        for (char c = '0'; c <= '9'; ++c) glossary[c] = c;
-    }
-} glossary;
-
-struct TrieNode {
-    int next[10];
-    int word_id;
-    
-    TrieNode() {
-        std::fill(std::begin(next), std::end(next), -1);
-        word_id = -1;
-    }
+const std::unordered_map<char, char> letter_to_digit = {
+    {'I', '1'}, {'J', '1'},
+    {'A', '2'}, {'B', '2'}, {'C', '2'},
+    {'D', '3'}, {'E', '3'}, {'F', '3'},
+    {'G', '4'}, {'H', '4'},
+    {'K', '5'}, {'L', '5'},
+    {'M', '6'}, {'N', '6'},
+    {'P', '7'}, {'R', '7'}, {'S', '7'},
+    {'T', '8'}, {'U', '8'}, {'V', '8'},
+    {'W', '9'}, {'X', '9'}, {'Y', '9'},
+    {'O', '0'}, {'Q', '0'}, {'Z', '0'},
+    {'0', '0'}, {'1', '1'}, {'2', '2'}, {'3', '3'}, {'4', '4'},
+    {'5', '5'}, {'6', '6'}, {'7', '7'}, {'8', '8'}, {'9', '9'}
 };
-
-std::vector<TrieNode> trie;
-
-void insert_trie(const std::string& reversed_digits, int id) {
-    int v = 0;
-    for (char ch : reversed_digits) {
-        int c = ch - '0';
-        if (trie[v].next[c] == -1) {
-            trie[v].next[c] = trie.size();
-            trie.emplace_back();
-        }
-        v = trie[v].next[c];
-    }
-    trie[v].word_id = id;
-}
 
 int main() {
     std::ifstream input("input.txt"); 
     std::ofstream out("output.txt");
 
     std::string phone_number;
-    input >> phone_number;
+    if (!(input >> phone_number)) return 0;
     
     const size_t size{phone_number.size()};
     const int INF = 1e9;
     
     std::vector<int> dp(size + 1, INF);
     std::vector<int> parent_pos(size + 1, -1);
-    std::vector<int> parent_word(size + 1, -1);
+    std::vector<std::string> parent_word(size + 1);
     dp[0] = 0;
 
     int n;
-    input >> n;
+    if (!(input >> n)) return 0;
 
-    trie.reserve(n * 5);
-    trie.emplace_back();
-    std::vector<std::string> original_words;
-    original_words.reserve(n);
-
+    std::vector<std::vector<std::pair<std::string, std::string>>> words(101);
     std::string word;
+    size_t max_len{};
+
     for (int i{0}; i < n; i++) {
         input >> word;
         std::string original = word;
-        
         for (char& j : word) { 
-            j = glossary.glossary[static_cast<unsigned char>(j)];
+            j = letter_to_digit.at(j);
         }
         
         std::reverse(word.begin(), word.end());
-        
-        original_words.push_back(original);
-        insert_trie(word, original_words.size() - 1);
+        words[word.size()].push_back({word, original});
+        if (word.length() > max_len) {
+            max_len = word.length();
+        }
     }
 
-    for (size_t i{1}; i <= size; i++) {
-        int v = 0;
-        
-        for (size_t j{1}; j <= i; j++) {
-            int digit = phone_number[i - j] - '0';
-            v = trie[v].next[digit];
-            
-            if (v == -1) break; 
+    for (auto& vec : words) {
+        std::sort(vec.begin(), vec.end(), [](const auto& a, const auto& b) {
+            return a.first < b.first;
+        });
+    }
 
-            if (dp[i - j] != INF && trie[v].word_id != -1) {
-                if (dp[i - j] + 1 < dp[i]) {
-                    dp[i] = dp[i - j] + 1;
-                    parent_pos[i] = i - j;
-                    parent_word[i] = trie[v].word_id; 
+    size_t max_size{max_len};
+    for (size_t i{1}; i <= size; i++) {
+        max_size = (i < max_len) ? i : max_len;
+        std::string str{};
+        for (size_t j{1}; j <= max_size; j++) {
+            str += phone_number[i - j];
+            if (dp[i - j] != INF) {
+                auto it = std::lower_bound(words[j].begin(), words[j].end(), str,
+                    [](const std::pair<std::string, std::string>& a, const std::string& val) {
+                        return a.first < val;
+                    });
+
+                if (it != words[j].end() && it->first == str) {
+                    if (dp[i - j] + 1 < dp[i]) {
+                        dp[i] = dp[i - j] + 1;
+                        parent_pos[i] = i - j;
+                        parent_word[i] = it->second;
+                    }
                 }
             }
         }
@@ -110,7 +91,7 @@ int main() {
         size_t start = size;
         out << dp[size] << "\n";
         while (start > 0) {
-            result.push_back(original_words[parent_word[start]]);
+            result.push_back(parent_word[start]);
             start = parent_pos[start];
         }
         std::reverse(result.begin(), result.end());
