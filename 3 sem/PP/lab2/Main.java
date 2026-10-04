@@ -1,9 +1,10 @@
 import java.io.*;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         String inputFilePath = "input.txt";
         String outputFilePath = "output.txt";
 
@@ -15,11 +16,12 @@ public class Main {
 
             List<String> tokens = TextProcessor.processText(textLine, delimiters);
             
-            String[] expNumbers = TextProcessor.findAndSortExpNumbers(tokens);            String firstExp = TextProcessor.getFirstExpToken(tokens);
+            String[] expNumbers = TextProcessor.findAndSortExpNumbers(tokens); 
+            String firstExp = TextProcessor.getFirstExpToken(tokens);
 
             List<String> times = TextProcessor.findTimes(tokens);
 
-            String textAfterInsert = TextProcessor.insertRandomNumber(textLine, firstExp);
+            String textAfterInsert = TextProcessor.insertRandomNumber(textLine, firstExp,delimiters);
 
             String finalText = TextProcessor.removeMinLengthSubstrings(textAfterInsert);
 

@@ -39,68 +39,64 @@ public class TextProcessor {
         return arr;
     }
 
-    public static List<String> findTimes(List<String> tokens) {
+    public static List<String> findTimes(List<String> tokens) throws ParseException {
         List<String> times = new ArrayList<>();
         Pattern p = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3])-(0[0-9]|[0-5][0-9])$");
         SimpleDateFormat sdf = new SimpleDateFormat("HH-mm");
         sdf.setLenient(false);
 
         for (String token : tokens) {
-            if (!token.matches("^[-+]?\\d+(\\.\\d+)?[eE][-+]?\\d+$") && p.matcher(token).matches()) {
-                try {
-                    Date date = sdf.parse(token);
+            if (p.matcher(token).matches()) {
+                    Date date = null;
+                    date = sdf.parse(token);
                     times.add(sdf.format(date));
-                } catch (ParseException ignored) {
-                }
             }
         }
         return times;
     }
 
-    public static String insertRandomNumber(String text, String firstExp) {
+    public static String insertRandomNumber(String text, String firstExp, String delimiters) {
         StringBuilder sb = new StringBuilder(text);
         double rand = Math.random() * 1000;
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.of("be", "BY"));
-        DecimalFormat percentFormat = new DecimalFormat("#.##%");
-
-        String insertStr = String.format(" [Случ: %s | %s] ",
-                currencyFormat.format(rand),
-                percentFormat.format(rand / 1000.0));
+        char delim = delimiters.charAt(0);
+        String insertStr = delim + String.format(Locale.US, "%.2f", rand) + delim;
 
         if (firstExp != null) {
             int idx = sb.indexOf(firstExp);
             if (idx != -1) {
                 sb.insert(idx + firstExp.length(), insertStr);
+                return sb.toString();
             }
-        } else {
-            sb.insert(sb.length() / 2, insertStr);
         }
+    
+        int insertIdx = sb.length() / 2;
+        while (insertIdx < sb.length() && !(delimiters.contains(String.valueOf(sb.charAt(insertIdx))))) {
+            insertIdx++;
+        }
+        sb.insert(insertIdx, insertStr);
         return sb.toString();
     }
 
     public static String removeMinLengthSubstrings(String text) {
-        StringBuilder sb = new StringBuilder(text);
-        Pattern p = Pattern.compile("[а-яА-ЯёЁ].*?\\d");
-        Matcher m = p.matcher(sb.toString());
-
+        Matcher matcher = Pattern.compile("[а-яА-ЯёЁ].*?\\d").matcher(text);
+        List<String> matches = new ArrayList<>();
         int minLen = Integer.MAX_VALUE;
-        while (m.find()) {
-            int currentLen = m.group().length();
-            if (currentLen < minLen) {
-                minLen = currentLen;
+
+        while (matcher.find()) {
+            String match = matcher.group();
+            matches.add(match);
+            if (match.length() < minLen) {
+                minLen = match.length();
             }
         }
 
-        if (minLen != Integer.MAX_VALUE) {
-            m.reset();
-            List<int[]> ranges = new ArrayList<>();
-            while (m.find()) {
-                if (m.group().length() == minLen) {
-                    ranges.add(new int[] { m.start(), m.end() });
+        StringBuilder sb = new StringBuilder(text);
+        for (String match : matches) {
+            if (match.length() == minLen) {
+                int idx;
+                while ((idx = sb.indexOf(match)) != -1) {
+                    sb.delete(idx, idx + match.length());
                 }
-            }
-            for (int i = ranges.size() - 1; i >= 0; i--) {
-                sb.delete(ranges.get(i)[0], ranges.get(i)[1]);
             }
         }
         return sb.toString();
