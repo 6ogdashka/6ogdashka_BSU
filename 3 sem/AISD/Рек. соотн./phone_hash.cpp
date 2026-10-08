@@ -134,7 +134,7 @@ int main() {
         result.reserve(dp[phone_length]);
 
         size_t start{phone_length};
-        out << dp[phone_length] << "\n";
+        out << dp[start] << "\n";
         while (start > 0) {
             result.push_back(dictionary_words[parent_word_id[start]]);
             start = parent_pos[start];
