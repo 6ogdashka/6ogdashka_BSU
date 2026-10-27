@@ -10,7 +10,8 @@ struct Node {
     Node* right;
     bool inWay = false;
 
-    Node(int value, Node* parent_ = nullptr) : data(value), parent(parent_), way{}, left(nullptr), right(nullptr) {}
+    Node(int value, Node* parent_ = nullptr)
+        : data(value), parent(parent_), way{}, left(nullptr), right(nullptr) {}
 };
 
 std::ofstream out("tst.out");
@@ -44,7 +45,7 @@ void TryRightDelete(Node*& BinTree, Node* current, int value) {
                 } else {
                     BinTree = child;
                 }
-                
+
                 if (child != nullptr) {
                     child->parent = current->parent;
                 }
@@ -90,7 +91,7 @@ void Left(Node* current) {
     }
 }
 
-bool GoRight(Node* current) {
+bool Go(Node* current) {
     int LeftWay  = (current->left  != nullptr) ? current->left->way  : -1;
     int RightWay = (current->right != nullptr) ? current->right->way : -1;
 
@@ -112,7 +113,7 @@ void FindStart(Node* current, Node*& result) {
         return;
     }
 
-    if (GoRight(current))
+    if (Go(current))
         FindStart(current->right, result);
     else
         FindStart(current->left, result);
@@ -128,20 +129,191 @@ void FindFinish(Node* current, Node*& result) {
         return;
     }
 
-    if (GoRight(current))
+    if (Go(current))
         FindFinish(current->right, result);
     else
         FindFinish(current->left, result);
 }
 
-void LeftFind(Node* current,Node* result,int current_max = 0) {
-    if (current != nullptr) {
-        if ( current->way > result->way) {
-            result = current;
-        }
-        LeftFind(current->left, result, result->way);
-        LeftFind(current->right, result, result->way);
+void LeftFind(Node* current, Node*& result) {
+    if (current == nullptr) return;
+
+    if (result == nullptr || current->way > result->way) {
+        result = current;
     }
+
+    LeftFind(current->left, result);
+    LeftFind(current->right, result);
+}
+
+void CollectCandidates(Node* current, int max_way, std::vector<Node*>& candidates) {
+    if (current == nullptr) return;
+    if (current->way == max_way) {
+        candidates.push_back(current);
+    }
+    CollectCandidates(current->left, max_way, candidates);
+    CollectCandidates(current->right, max_way, candidates);
+}
+
+void ResetInWay(Node* current) {
+    if (current == nullptr) return;
+    current->inWay = false;
+    ResetInWay(current->left);
+    ResetInWay(current->right);
+}
+
+void PathUp(Node* current, std::vector<int>& result) {
+    if (current == nullptr || !current->inWay) return;
+
+    if (current->left && current->left->inWay)
+        PathUp(current->left, result);
+    else if (current->right && current->right->inWay)
+        PathUp(current->right, result);
+
+    result.push_back(current->data);
+}
+
+void PathDown(Node* current, std::vector<int>& result) {
+    if (current == nullptr || !current->inWay) return;
+
+    result.push_back(current->data);
+
+    if (current->left && current->left->inWay)
+        PathDown(current->left, result);
+    else if (current->right && current->right->inWay)
+        PathDown(current->right, result);
+}
+
+void HalfWayBuild(Node* current, std::vector<int>& result) {
+    if (current == nullptr || !current->inWay) return;
+
+    if (current->left && current->left->inWay)
+        PathUp(current->left, result);
+
+    result.push_back(current->data);
+
+    if (current->right && current->right->inWay)
+        PathDown(current->right, result);
+}
+
+void Final(Node*& BinTree, int way_size, std::vector<int> HalfWay) {
+    std::sort(HalfWay.begin(), HalfWay.end());
+    int median = HalfWay[HalfWay.size() / 2];
+
+    if (way_size % 2 == 0) {
+        TryRightDelete(BinTree, BinTree, median);
+    }
+
+    Left(BinTree);
+}
+
+long long GetHalfWayMinSum(Node* cand, Node* BinTree) {
+    ResetInWay(BinTree);
+    cand->inWay = true;
+    Node* start = cand;
+    Node* finish = cand;
+
+    FindStart(cand->left, start);
+    FindFinish(cand->right, finish);
+
+    if (start == finish) return -1;
+
+    if (start == cand || finish == cand) {
+        return (start == cand) ? (long long)cand->data + finish->data : (long long)start->data + cand->data;
+    } else {
+        long long sum1 = (long long)start->parent->data + finish->data;
+        long long sum2 = (long long)finish->parent->data + start->data;
+        return std::min(sum1, sum2);
+    }
+}
+
+bool ProcessPathAndExecute(Node*& BinTree, Node* result) {
+    if (result == nullptr) return false;
+
+    ResetInWay(BinTree);
+    result->inWay = true;
+
+    Node* start = result;
+    Node* finish = result;
+
+    FindStart(result->left, start);
+    FindFinish(result->right, finish);
+
+    if (start == finish) {
+        Left(BinTree);
+        return true;
+    }
+
+    std::vector<int> HalfWay{};
+    HalfWayBuild(result, HalfWay);
+
+    if ( (start == result) || (finish == result) ) {
+        Final(BinTree, result->way, HalfWay);
+        return true;
+    }
+
+    int start_parent_value = start->parent->data;
+    int finish_parent_value = finish->parent->data;
+    long long sum1 = (long long)start_parent_value + finish->data;
+    long long sum2 = (long long)finish_parent_value + start->data;
+
+    if ( sum1 < sum2 ) {
+        HalfWay.erase(HalfWay.begin());
+        Final(BinTree, result->way, HalfWay);
+        return true;
+    }
+
+    if ( sum2 < sum1 ) {
+        HalfWay.pop_back();
+        Final(BinTree, result->way, HalfWay);
+        return true;
+    }
+
+    if ( sum1 == sum2 ) {
+        std::vector<int> HalfWay_copy = HalfWay;
+        HalfWay_copy.pop_back();
+        HalfWay.erase(HalfWay.begin());
+        std::sort(HalfWay_copy.begin(),HalfWay_copy.end());
+        std::sort(HalfWay.begin(),HalfWay.end());
+        if ( HalfWay[HalfWay.size()/2] == HalfWay_copy[HalfWay_copy.size()/2] ) {
+            TryRightDelete(BinTree, BinTree, HalfWay[HalfWay.size()/2]);
+        }
+        Left(BinTree);
+        return true;
+    }
+
+    return false;
+}
+
+Node* FindBestRoot(Node* BinTree) {
+    Node* max_node = nullptr;
+    LeftFind(BinTree, max_node);
+    if (max_node == nullptr) return nullptr;
+
+    int max_way = max_node->way;
+    std::vector<Node*> candidates;
+    CollectCandidates(BinTree, max_way, candidates);
+
+    if (candidates.empty()) return nullptr;
+
+    std::sort(candidates.begin(), candidates.end(), [](Node* a, Node* b) {
+        return a->data < b->data;
+    });
+
+    Node* best_result = nullptr;
+    long long best_sum = -1;
+
+    for (Node* cand : candidates) {
+        long long current_sum = GetHalfWayMinSum(cand, BinTree);
+        if (current_sum == -1) continue;
+
+        if (best_result == nullptr || current_sum < best_sum) {
+            best_sum = current_sum;
+            best_result = cand;
+        }
+    }
+
+    return best_result;
 }
 
 int LeftWay(Node* node) {
@@ -162,16 +334,6 @@ int LeftWay(Node* node) {
     }
 
     return std::max(left, right);
-}
-
-void LeftWayBuild(Node* current, std::vector<int>& result) {
-    if ( current != nullptr) {
-        LeftWayBuild(current->left, result);
-        if ( current->inWay == true) {
-            result.push_back(current->data);
-        }
-        LeftWayBuild(current->right,result);
-    }
 }
 
 int main() {
@@ -206,23 +368,14 @@ int main() {
     }
 
     LeftWay(BinTree);
-    Node* result = BinTree;
-    Node* start = result;
-    Node* finish;
-    LeftFind(BinTree,result);
-    out << result->data << " " << result->way << "\n\n";
-    result->inWay = true;
-    FindStart(result->left, start);
-    FindFinish(result->right, finish);
-    std::vector<int> HalfWay{};
-    LeftWayBuild(BinTree,HalfWay);
-    if ( start != result) {
-        HalfWay.pop_back();
+
+    Node* result = FindBestRoot(BinTree);
+    if (result == nullptr) {
+        Left(BinTree);
+        return 0;
     }
-    for ( int i : HalfWay ) { out << i << "\n";}
-    if ( result->way % 2 == 0) {
-        int median = HalfWay[HalfWay.size()/2];
-        TryRightDelete(BinTree,BinTree,median);
-    }
-    //Left(BinTree);
+
+    ProcessPathAndExecute(BinTree, result);
+
+    return 0;
 }

@@ -23,6 +23,8 @@ public class Main {
 
             String textAfterInsert = TextProcessor.insertRandomNumber(textLine, firstExp,delimiters);
 
+            
+
             String finalText = TextProcessor.removeMinLengthSubstrings(textAfterInsert);
 
             writer.write("Токены: " + tokens + "\n");

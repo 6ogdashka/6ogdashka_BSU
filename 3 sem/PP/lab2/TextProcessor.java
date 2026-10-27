@@ -78,7 +78,7 @@ public class TextProcessor {
     }
 
     public static String removeMinLengthSubstrings(String text) {
-        Matcher matcher = Pattern.compile("[а-яА-ЯёЁ].*?\\d").matcher(text);
+        Matcher matcher = Pattern.compile("[а-яА-ЯёЁ][а-яА-ЯёЁ0-9\\s]*?\\d").matcher(text);
         List<String> matches = new ArrayList<>();
         int minLen = Integer.MAX_VALUE;
 
